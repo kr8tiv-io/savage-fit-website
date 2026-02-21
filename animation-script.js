@@ -128,44 +128,62 @@
   // 5. FAQ ACCORDION
   // ========================================
   (function initFAQ() {
-    // Find FAQ items - they have header + description pattern
-    const faqHeaders = document.querySelectorAll('[data-framer-name="Header Container"]');
-    if (!faqHeaders.length) return;
+    // Framer FAQ structure:
+    // framer-ozPhw (data-framer-name="Open"/"Closed") = accordion item variant
+    //   framer-dca6r5 (Item Container) = actual content
+    //     Header Container = clickable header
+    //     Description (framer-qbh8vt) = answer to toggle
+    //   framer-qdhte4 (Item Container Placeholder) = duplicate, hide it
 
-    faqHeaders.forEach(header => {
-      const parent = header.closest('[data-framer-name]');
-      if (!parent) return;
-      
-      // Find the description/answer sibling
-      const desc = parent.querySelector('[data-framer-name="Description"]') || 
-                   header.nextElementSibling;
-      if (!desc) return;
+    // Hide all placeholder duplicates
+    document.querySelectorAll('.framer-qdhte4').forEach(el => {
+      el.style.display = 'none';
+    });
 
-      // Check if this is a "closed" variant
-      const isOpen = parent.getAttribute('data-framer-name')?.includes('open') || 
-                     parent.getAttribute('data-framer-name')?.includes('Open');
+    // Find all actual Item Containers
+    const itemContainers = document.querySelectorAll('.framer-dca6r5');
+    if (!itemContainers.length) return;
+
+    itemContainers.forEach(container => {
+      const header = container.querySelector('[data-framer-name="Header Container"]');
+      const desc = container.querySelector('[data-framer-name="Description"]');
+      if (!header || !desc) return;
+
+      // Check if parent variant is "Open" or "Closed"
+      const variant = container.closest('[data-framer-name="Open"], [data-framer-name="Closed"]');
+      const isOpen = variant?.getAttribute('data-framer-name') === 'Open';
+
+      // Set initial state
+      desc.style.overflow = 'hidden';
+      desc.style.transition = 'max-height 0.4s ease, opacity 0.3s ease';
       
       if (!isOpen) {
         desc.style.maxHeight = '0';
-        desc.style.overflow = 'hidden';
-        desc.style.transition = 'max-height 0.4s ease';
+        desc.style.opacity = '0';
       } else {
         desc.style.maxHeight = desc.scrollHeight + 'px';
-        desc.style.overflow = 'hidden';
-        desc.style.transition = 'max-height 0.4s ease';
+        desc.style.opacity = '1';
+      }
+
+      // Find arrow icon container
+      const arrowContainer = header.querySelector('[class*="framer-1f2659h-container"]');
+      if (arrowContainer) {
+        arrowContainer.style.transition = 'transform 0.3s ease';
       }
 
       header.style.cursor = 'pointer';
+      let open = isOpen;
+
       header.addEventListener('click', () => {
-        if (desc.style.maxHeight === '0px' || desc.style.maxHeight === '0') {
+        open = !open;
+        if (open) {
           desc.style.maxHeight = desc.scrollHeight + 'px';
-          // Rotate arrow if exists
-          const arrow = header.querySelector('svg');
-          if (arrow) arrow.style.transform = 'rotate(180deg)';
+          desc.style.opacity = '1';
+          if (arrowContainer) arrowContainer.style.transform = 'rotate(180deg)';
         } else {
           desc.style.maxHeight = '0';
-          const arrow = header.querySelector('svg');
-          if (arrow) arrow.style.transform = 'rotate(0deg)';
+          desc.style.opacity = '0';
+          if (arrowContainer) arrowContainer.style.transform = 'rotate(0deg)';
         }
       });
     });
