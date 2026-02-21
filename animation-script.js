@@ -229,6 +229,20 @@
     const style = document.createElement('style');
     style.textContent = `
       .framer-2678bb { display: none !important; }
+      /* Constrain the nav backdrop to the pill button size, not the expanded "open" size */
+      nav.framer-5OMLU .framer-10pf16c,
+      nav.framer-5OMLU .framer-65flkt {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 126px !important;
+        max-height: 58px !important;
+      }
+      /* Force the nav component to not expand beyond pill size */
+      nav.framer-5OMLU {
+        overflow: hidden !important;
+        max-width: 140px !important;
+        max-height: 64px !important;
+      }
     `;
     document.head.appendChild(style);
   })();
