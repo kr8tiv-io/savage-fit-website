@@ -1,5 +1,5 @@
-// Savage Fit V5.1 - Complete Interactive Restoration
-// GSAP + Vanilla JS - Zero Framer Dependencies
+// Savage Fit V5.4 - Clean Interactive Restoration
+// GSAP + Vanilla JS
 
 (function() {
   'use strict';
@@ -7,455 +7,234 @@
   // ========================================
   // 1. LENIS SMOOTH SCROLL
   // ========================================
-  const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true
+  let lenis;
+  try {
+    lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+  } catch(e) { console.warn('Lenis not loaded'); }
+
+  // ========================================
+  // 2. GSAP SETUP
+  // ========================================
+  if (typeof gsap === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+  if (lenis) lenis.on('scroll', ScrollTrigger.update);
+
+  // ========================================
+  // 3. FIX HIDDEN ELEMENTS - Reveal opacity:0
+  // ========================================
+  document.querySelectorAll('[style]').forEach(el => {
+    const style = el.getAttribute('style');
+    if (!style || !style.includes('opacity')) return;
+    
+    // Check if opacity is 0 (but not opacity: 1 or 0.5 etc)
+    const opMatch = style.match(/opacity:\s*([\d.]+)/);
+    if (!opMatch || parseFloat(opMatch[1]) !== 0) return;
+    
+    // Skip tiny elements (decorative dots, separators)
+    if (el.offsetWidth < 5 && el.offsetHeight < 5) return;
+    
+    // Animate in with ScrollTrigger
+    gsap.to(el, {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 90%',
+        once: true
+      }
+    });
   });
 
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-
   // ========================================
-  // 2. GSAP SCROLLTRIGGER SETUP
+  // 4. NAVIGATION MENU
   // ========================================
-  gsap.registerPlugin(ScrollTrigger);
-
-  // Update ScrollTrigger on Lenis scroll
-  lenis.on('scroll', ScrollTrigger.update);
-
-  // ========================================
-  // 3. ANIMATE HIDDEN ELEMENTS (opacity:0)
-  // ========================================
-  function animateHiddenElements() {
-    // Find ALL elements with inline opacity:0
-    const hiddenElements = document.querySelectorAll('[style*="opacity:0"], [style*="opacity: 0"]');
-    
-    hiddenElements.forEach(el => {
-      const style = el.getAttribute('style');
-      if (!style || !style.includes('opacity')) return;
-
-      // Parse transform to determine animation direction
-      let fromProps = { opacity: 0 };
-      let toProps = { opacity: 1, duration: 0.8, ease: "power2.out" };
-
-      if (style.includes('translateX(-')) {
-        fromProps.x = -80;
-        toProps.x = 0;
-      } else if (style.includes('translateX(')) {
-        fromProps.x = 80;
-        toProps.x = 0;
-      }
-
-      if (style.includes('translateY(-')) {
-        fromProps.y = -80;
-        toProps.y = 0;
-      } else if (style.includes('translateY(')) {
-        fromProps.y = 80;
-        toProps.y = 0;
-      }
-
-      gsap.fromTo(el, fromProps, {
-        ...toProps,
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%",
-          toggleActions: "play none none reverse"
-        }
-      });
-    });
-  }
-
-  // ========================================
-  // 4. NAVIGATION MOBILE MENU
-  // ========================================
-  function initMobileMenu() {
-    // Find MENU button (search for text "MENU" in the nav)
-    const nav = document.querySelector('nav, header');
-    if (!nav) return;
-
-    const menuButtons = Array.from(nav.querySelectorAll('a, button, div[data-highlight]')).filter(el => 
-      el.textContent.trim().toUpperCase() === 'MENU'
-    );
-
-    const menuBtn = menuButtons[0];
+  (function initMenu() {
+    const menuBtn = document.querySelector('[data-framer-name="Menu"][data-highlight="true"]');
     if (!menuBtn) return;
 
-    // Create overlay menu
+    // Detect base path for GitHub Pages
+    const basePath = window.location.pathname.includes('/savage-fit-website') 
+      ? '/savage-fit-website/' : '/';
+
+    // Create fullscreen overlay menu
     const overlay = document.createElement('div');
-    overlay.id = 'mobile-menu-overlay';
-    overlay.style.cssText = `
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 100%;
-      height: 100vh;
-      background: rgba(17, 17, 17, 0.98);
-      z-index: 9999;
-      transition: right 0.4s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
+    overlay.id = 'savage-menu';
+    overlay.innerHTML = `
+      <style>
+        #savage-menu {
+          position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+          background: rgba(17, 17, 17, 0.96); z-index: 99999;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          gap: 1.5rem; opacity: 0; pointer-events: none;
+          transition: opacity 0.35s ease; backdrop-filter: blur(20px);
+        }
+        #savage-menu.open { opacity: 1; pointer-events: all; }
+        #savage-menu a {
+          color: white; font-size: 1.6rem; font-weight: 700; text-decoration: none;
+          font-family: "Manrope", sans-serif; transition: color 0.2s;
+          opacity: 0; transform: translateY(20px);
+        }
+        #savage-menu a:hover { color: #ff6d99; }
+        #savage-menu .close-btn {
+          position: absolute; top: 2rem; right: 2rem; background: none; border: none;
+          color: white; font-size: 2.5rem; cursor: pointer; width: 50px; height: 50px;
+          display: flex; align-items: center; justify-content: center;
+        }
+        #savage-menu .close-btn:hover { color: #ff6d99; }
+      </style>
+      <button class="close-btn">&times;</button>
+      <a href="${basePath}">Home</a>
+      <a href="${basePath}training/">1-1 Training</a>
+      <a href="${basePath}subscription/">Subscription</a>
+      <a href="${basePath}challenges/">Challenges</a>
+      <a href="${basePath}spring-aesthetic/">Spring Aesthetic</a>
+      <a href="${basePath}products/">Products</a>
     `;
-
-    const closeBtn = document.createElement('button');
-    closeBtn.innerHTML = '&times;';
-    closeBtn.style.cssText = `
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 3rem;
-      cursor: pointer;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    `;
-
-    // Detect if we're in a subdirectory
-    const isSubpage = window.location.pathname.includes('/training') || 
-                      window.location.pathname.includes('/subscription') ||
-                      window.location.pathname.includes('/challenges') ||
-                      window.location.pathname.includes('/spring-aesthetic') ||
-                      window.location.pathname.includes('/products');
-    const basePath = isSubpage ? '../' : './';
-    // Also detect GitHub Pages base path
-    const ghBase = window.location.pathname.match(/^\/savage-fit-website/) ? '/savage-fit-website/' : '/';
-    const base = isSubpage ? ghBase : ghBase;
-
-    const links = [
-      { text: 'Home', href: base },
-      { text: '1-1 Training', href: base + 'training/' },
-      { text: 'Subscription', href: base + 'subscription/' },
-      { text: 'Challenges', href: base + 'challenges/' },
-      { text: 'Spring Aesthetic', href: base + 'spring-aesthetic/' },
-      { text: 'Products', href: base + 'products/' }
-    ];
-
-    links.forEach(link => {
-      const a = document.createElement('a');
-      a.textContent = link.text;
-      a.href = link.href;
-      a.style.cssText = `
-        color: white;
-        font-size: 1.5rem;
-        font-weight: 700;
-        text-decoration: none;
-        font-family: "Manrope", sans-serif;
-        transition: color 0.2s;
-      `;
-      a.onmouseenter = () => a.style.color = '#ff6d99';
-      a.onmouseleave = () => a.style.color = 'white';
-      overlay.appendChild(a);
-    });
-
-    overlay.appendChild(closeBtn);
     document.body.appendChild(overlay);
 
+    const closeBtn = overlay.querySelector('.close-btn');
+    const links = overlay.querySelectorAll('a');
+
+    function openMenu() {
+      overlay.classList.add('open');
+      links.forEach((link, i) => {
+        gsap.to(link, { opacity: 1, y: 0, duration: 0.4, delay: 0.1 + i * 0.06, ease: 'power2.out' });
+      });
+    }
+
+    function closeMenu() {
+      overlay.classList.remove('open');
+      links.forEach(link => { link.style.opacity = '0'; link.style.transform = 'translateY(20px)'; });
+    }
+
+    menuBtn.style.cursor = 'pointer';
     menuBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      overlay.style.right = '0';
+      e.stopPropagation();
+      openMenu();
     });
-
-    closeBtn.addEventListener('click', () => {
-      overlay.style.right = '-100%';
-    });
-  }
+    
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeMenu(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+  })();
 
   // ========================================
   // 5. FAQ ACCORDION
   // ========================================
-  function initFAQAccordion() {
-    const faqItems = document.querySelectorAll('.framer-ozPhw');
-    
-    faqItems.forEach((item, index) => {
-      const header = item.querySelector('.framer-1orewmd');
-      const description = item.querySelector('.framer-qbh8vt');
-      const arrow = item.querySelector('.framer-1f2659h-container');
-      
-      if (!header || !description) return;
+  (function initFAQ() {
+    // Find FAQ items - they have header + description pattern
+    const faqHeaders = document.querySelectorAll('[data-framer-name="Header Container"]');
+    if (!faqHeaders.length) return;
 
-      // Close all except first
-      if (index !== 0) {
-        description.style.height = '0';
-        description.style.overflow = 'hidden';
-        description.style.opacity = '0';
-        if (arrow) arrow.style.transform = 'none';
+    faqHeaders.forEach(header => {
+      const parent = header.closest('[data-framer-name]');
+      if (!parent) return;
+      
+      // Find the description/answer sibling
+      const desc = parent.querySelector('[data-framer-name="Description"]') || 
+                   header.nextElementSibling;
+      if (!desc) return;
+
+      // Check if this is a "closed" variant
+      const isOpen = parent.getAttribute('data-framer-name')?.includes('open') || 
+                     parent.getAttribute('data-framer-name')?.includes('Open');
+      
+      if (!isOpen) {
+        desc.style.maxHeight = '0';
+        desc.style.overflow = 'hidden';
+        desc.style.transition = 'max-height 0.4s ease';
       } else {
-        description.style.height = 'auto';
-        description.style.overflow = 'visible';
-        description.style.opacity = '1';
-        if (arrow) arrow.style.transform = 'rotate(180deg)';
+        desc.style.maxHeight = desc.scrollHeight + 'px';
+        desc.style.overflow = 'hidden';
+        desc.style.transition = 'max-height 0.4s ease';
       }
 
       header.style.cursor = 'pointer';
-      
       header.addEventListener('click', () => {
-        const isOpen = description.style.height !== '0px' && description.style.height !== '0';
-        
-        // Close all
-        faqItems.forEach((otherItem) => {
-          const otherDesc = otherItem.querySelector('.framer-qbh8vt');
-          const otherArrow = otherItem.querySelector('.framer-1f2659h-container');
-          if (otherDesc) {
-            otherDesc.style.height = '0';
-            otherDesc.style.overflow = 'hidden';
-            otherDesc.style.opacity = '0';
-          }
-          if (otherArrow) otherArrow.style.transform = 'none';
-        });
-
-        // Toggle current
-        if (!isOpen) {
-          description.style.height = 'auto';
-          description.style.overflow = 'visible';
-          description.style.opacity = '1';
+        if (desc.style.maxHeight === '0px' || desc.style.maxHeight === '0') {
+          desc.style.maxHeight = desc.scrollHeight + 'px';
+          // Rotate arrow if exists
+          const arrow = header.querySelector('svg');
           if (arrow) arrow.style.transform = 'rotate(180deg)';
+        } else {
+          desc.style.maxHeight = '0';
+          const arrow = header.querySelector('svg');
+          if (arrow) arrow.style.transform = 'rotate(0deg)';
         }
       });
     });
-  }
+  })();
 
   // ========================================
-  // 6. BEFORE/AFTER CAROUSEL
+  // 6. NUMBER COUNTER ANIMATION
   // ========================================
-  function initCarousel() {
-    const carouselContainer = document.querySelector('.framer-12nmrnn-container');
-    if (!carouselContainer) return;
-
-    const images = [
-      'assets/yvMdV6P1vYmaUr4sC6wAFjnCTMk.png',
-      'assets/Pm2qKYbG0YTcPJgEuv4UuiWLM.png',
-      'assets/qdUuLPjffld3GIvEpGkBBO2ZOQ.png'
-    ];
-
-    const imgElement = carouselContainer.querySelector('img[src*="yvMdV6P1v"]');
-    if (!imgElement) return;
-
-    const leftBtn = carouselContainer.querySelector('button:nth-of-type(1)');
-    const rightBtn = carouselContainer.querySelector('button:nth-of-type(2)');
-    const dots = carouselContainer.querySelectorAll('[style*="cursor:pointer"]');
-
-    let currentIndex = 0;
-
-    function updateCarousel(index) {
-      currentIndex = index;
-      imgElement.src = images[index];
+  (function initCounters() {
+    // Find elements that contain stats numbers
+    document.querySelectorAll('h2, h3, [class*="framer-text"]').forEach(el => {
+      const text = el.textContent.trim();
+      const match = text.match(/^([\d,.]+)([KkMm+]*)$/);
+      if (!match) return;
       
-      // Update dots
-      dots.forEach((dot, i) => {
-        const innerDiv = dot.querySelector('div');
-        if (innerDiv) {
-          if (i === index) {
-            innerDiv.style.width = '56px';
-            innerDiv.style.backgroundColor = 'white';
-          } else {
-            innerDiv.style.width = '8px';
-            innerDiv.style.backgroundColor = 'rgba(255,255,255,0.5)';
-          }
+      const target = parseFloat(match[1].replace(/,/g, ''));
+      const suffix = match[2];
+      if (target <= 0 || isNaN(target)) return;
+
+      const counter = { val: 0 };
+      gsap.to(counter, {
+        val: target,
+        duration: 2,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+        onUpdate: () => {
+          let display = counter.val;
+          if (target >= 100) display = Math.round(display);
+          else display = Math.round(display * 10) / 10;
+          el.textContent = display + suffix;
         }
       });
-    }
-
-    if (leftBtn) leftBtn.addEventListener('click', () => {
-      updateCarousel((currentIndex - 1 + images.length) % images.length);
     });
+  })();
 
-    if (rightBtn) rightBtn.addEventListener('click', () => {
-      updateCarousel((currentIndex + 1) % images.length);
+  // ========================================
+  // 7. SECTION REVEAL ANIMATIONS
+  // ========================================
+  (function initReveals() {
+    // Animate major sections as they enter viewport
+    const sections = document.querySelectorAll('[class*="framer-GgWI8"] > [class*="framer-"]');
+    sections.forEach(section => {
+      if (section.tagName === 'NAV' || section.tagName === 'STYLE') return;
+      gsap.from(section, {
+        y: 40,
+        opacity: 0.6,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: section, start: 'top 85%', once: true }
+      });
     });
+  })();
 
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => updateCarousel(i));
-    });
-
-    // Swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    carouselContainer.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    carouselContainer.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      if (touchStartX - touchEndX > 50) {
-        updateCarousel((currentIndex + 1) % images.length);
-      } else if (touchEndX - touchStartX > 50) {
-        updateCarousel((currentIndex - 1 + images.length) % images.length);
+  // ========================================
+  // 8. HIDE FRAMER SSR DUPLICATE NAV
+  // ========================================
+  // Framer renders multiple responsive variants. Without Framer JS, they all show.
+  // Hide the "mobile" and "tablet" SSR variants to avoid duplicated nav elements.
+  (function cleanFramerSSR() {
+    // The first nav's SSR variant (hidden-pqv1nm hidden-aqquw) = desktop variant, keep it
+    // Any nav inside hidden-53b06i or hidden-xmbfd5 alone = mobile/tablet, hide content  
+    const allNavs = document.querySelectorAll('nav[data-framer-name="Navbar"]');
+    // Just ensure only one nav is interactable
+    if (allNavs.length > 1) {
+      for (let i = 1; i < allNavs.length; i++) {
+        allNavs[i].style.display = 'none';
       }
-    });
-  }
-
-  // ========================================
-  // 7. TEAM CARD FLIPS
-  // ========================================
-  function initTeamCardFlips() {
-    const cards = document.querySelectorAll('[name*="Card"]');
-    
-    cards.forEach(card => {
-      const frontFace = card.querySelector('.framer-fj1sf');
-      const backFace = card.querySelector('.framer-ecuf62');
-      const moreBtn = card.querySelector('.framer-tnb8h');
-      const closeBtn = card.querySelector('.framer-nco7lt');
-
-      if (!frontFace || !backFace || !moreBtn || !closeBtn) return;
-
-      // Setup 3D flip
-      card.style.perspective = '1200px';
-      card.style.transformStyle = 'preserve-3d';
-      
-      frontFace.style.transition = 'transform 0.6s ease';
-      backFace.style.transition = 'transform 0.6s ease';
-      backFace.style.transform = 'rotateY(180deg)';
-      backFace.style.position = 'absolute';
-      backFace.style.top = '0';
-      backFace.style.left = '0';
-      backFace.style.width = '100%';
-      backFace.style.height = '100%';
-      backFace.style.backfaceVisibility = 'hidden';
-      frontFace.style.backfaceVisibility = 'hidden';
-
-      let isFlipped = false;
-
-      moreBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!isFlipped) {
-          frontFace.style.transform = 'rotateY(-180deg)';
-          backFace.style.transform = 'rotateY(0deg)';
-          isFlipped = true;
-        }
-      });
-
-      closeBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (isFlipped) {
-          frontFace.style.transform = 'rotateY(0deg)';
-          backFace.style.transform = 'rotateY(180deg)';
-          isFlipped = false;
-        }
-      });
-    });
-  }
-
-  // ========================================
-  // 8. TESTIMONIALS MARQUEE
-  // ========================================
-  function initTestimonialsMarquee() {
-    const marqueeContainer = document.querySelector('.framer-xp3cj-container section');
-    if (!marqueeContainer) return;
-
-    const ul = marqueeContainer.querySelector('ul');
-    if (!ul) return;
-
-    let scrollPosition = 0;
-    let isPaused = false;
-    const scrollSpeed = 1;
-
-    function animate() {
-      if (!isPaused) {
-        scrollPosition += scrollSpeed;
-        ul.style.transform = `translateX(-${scrollPosition}px)`;
-
-        // Reset when halfway through (infinite loop)
-        const halfWidth = ul.scrollWidth / 2;
-        if (scrollPosition >= halfWidth) {
-          scrollPosition = 0;
-        }
-      }
-      requestAnimationFrame(animate);
     }
+  })();
 
-    animate();
-
-    // Pause on hover
-    marqueeContainer.addEventListener('mouseenter', () => { isPaused = true; });
-    marqueeContainer.addEventListener('mouseleave', () => { isPaused = false; });
-  }
-
-  // ========================================
-  // 9. NUMBER COUNTER ANIMATION
-  // ========================================
-  function initNumberCounters() {
-    const counterContainers = [
-      { selector: '.framer-o1fkqq', target: 10 },
-      { selector: '.framer-ew8f3o', target: 1000 },
-      { selector: '.framer-15zkddz', target: 0 }
-    ];
-
-    counterContainers.forEach(({ selector, target }) => {
-      const container = document.querySelector(selector);
-      if (!container) return;
-
-      const textElement = container.querySelector('p[style*="color"]');
-      if (!textElement) return;
-
-      const suffix = textElement.textContent.includes('+') ? '+' : 
-                     textElement.textContent.includes('K') ? 'K' : 
-                     textElement.textContent.includes('M+') ? 'M+' : '';
-
-      gsap.fromTo(container, 
-        { opacity: 0, y: 80 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: container,
-            start: "top 85%",
-            onEnter: () => {
-              const obj = { val: 0 };
-              gsap.to(obj, {
-                val: target,
-                duration: 2,
-                ease: "power2.out",
-                onUpdate: () => {
-                  let displayVal = Math.round(obj.val);
-                  if (suffix === 'K') {
-                    textElement.textContent = (displayVal / 1000).toFixed(1) + 'K';
-                  } else {
-                    textElement.textContent = displayVal + suffix;
-                  }
-                }
-              });
-            }
-          }
-        }
-      );
-    });
-  }
-
-  // ========================================
-  // INITIALIZE ALL
-  // ========================================
-  function init() {
-    animateHiddenElements();
-    initMobileMenu();
-    initFAQAccordion();
-    initCarousel();
-    initTeamCardFlips();
-    initTestimonialsMarquee();
-    initNumberCounters();
-
-    console.log('✅ Savage Fit V5.1 - All animations loaded');
-  }
-
-  // Run on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
+  console.log('Savage Fit V5.4 initialized');
 })();
