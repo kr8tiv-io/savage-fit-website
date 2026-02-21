@@ -121,13 +121,24 @@
       justify-content: center;
     `;
 
+    // Detect if we're in a subdirectory
+    const isSubpage = window.location.pathname.includes('/training') || 
+                      window.location.pathname.includes('/subscription') ||
+                      window.location.pathname.includes('/challenges') ||
+                      window.location.pathname.includes('/spring-aesthetic') ||
+                      window.location.pathname.includes('/products');
+    const basePath = isSubpage ? '../' : './';
+    // Also detect GitHub Pages base path
+    const ghBase = window.location.pathname.match(/^\/savage-fit-website/) ? '/savage-fit-website/' : '/';
+    const base = isSubpage ? ghBase : ghBase;
+
     const links = [
-      { text: 'Training', href: '#programs' },
-      { text: 'Subscription', href: '#prices' },
-      { text: 'Challenges', href: '#prices' },
-      { text: 'Products', href: '#products' },
-      { text: 'Blog', href: '#blog' },
-      { text: 'Contact', href: '#contact-anchor' }
+      { text: 'Home', href: base },
+      { text: '1-1 Training', href: base + 'training/' },
+      { text: 'Subscription', href: base + 'subscription/' },
+      { text: 'Challenges', href: base + 'challenges/' },
+      { text: 'Spring Aesthetic', href: base + 'spring-aesthetic/' },
+      { text: 'Products', href: base + 'products/' }
     ];
 
     links.forEach(link => {
@@ -140,13 +151,10 @@
         font-weight: 700;
         text-decoration: none;
         font-family: "Manrope", sans-serif;
+        transition: color 0.2s;
       `;
-      a.onclick = (e) => {
-        e.preventDefault();
-        overlay.style.right = '-100%';
-        const target = document.querySelector(link.href);
-        if (target) lenis.scrollTo(target);
-      };
+      a.onmouseenter = () => a.style.color = '#ff6d99';
+      a.onmouseleave = () => a.style.color = 'white';
       overlay.appendChild(a);
     });
 
