@@ -1,373 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Savage Fit by Xenia | IFBB Pro Online Fitness Coaching for Women Who Lift</title>
-  <meta name="description" content="Build muscle. Burn fat. Join 1,000+ women transforming with IFBB Pro Xenia's Savage Society workouts & 1-on-1 coaching. No cookie-cutter plans.">
-  
-  <!-- Favicon -->
-  <link rel="icon" href="assets/logo-icon.png">
-  
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css">
-  
-  <!-- GSAP -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-  
-  <!-- Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savage Fit - Stronger. Fiercer. You.</title>
+    <meta name="description" content="Savage Fit by Xenia Busigin offers online fitness coaching with personalized workout programs, nutrition guidance & transformation challenges.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="grain">
-  
-  <!-- Custom Cursor -->
-  <div class="cursor"></div>
-  
-  <!-- Navigation -->
-  <nav>
-    <div class="nav-container">
-      <a href="index.html" class="logo">
-        <img src="assets/logo-full.png" alt="Savage Fit">
-      </a>
-      
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="training.html">1-on-1 Coaching</a></li>
-        <li><a href="subscription.html">All Access VIP</a></li>
-        <li><a href="challenges.html">Challenges</a></li>
-        <li><a href="spring-aesthetic.html">Spring Aesthetic</a></li>
-      </ul>
-      
-      <div class="menu-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </nav>
-  
-  <!-- Hero Section -->
-  <section class="hero">
-    <canvas id="webgl-bg"></canvas>
-    
-    <div class="hero-content">
-      <h1>Build Muscle. Lose Fat. Become Savage.</h1>
-      <p class="hero-subtitle">
-        No more boring workouts. No more cookie-cutter plans. No more feeling lost in the gym. 
-        Join 1,000+ women building strength, confidence, and the body they've always wanted — 
-        coached by IFBB Pro Xenia Busigin.
-      </p>
-      
-      <div class="hero-cta">
-        <a href="subscription.html" class="btn btn-primary">Join Savage Society</a>
-        <a href="training.html" class="btn btn-secondary">1-on-1 Coaching</a>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Stats Bar -->
-  <section class="stats-bar">
-    <div class="stat-item">
-      <h3>1,000+</h3>
-      <p>Women Transformed</p>
-    </div>
-    <div class="stat-item">
-      <h3>8</h3>
-      <p>Years Coaching Experience</p>
-    </div>
-    <div class="stat-item">
-      <h3>IFBB</h3>
-      <p>Pro Figure Athlete</p>
-    </div>
-    <div class="stat-item">
-      <h3>4.9★</h3>
-      <p>Client Reviews</p>
-    </div>
-  </section>
-  
-  <!-- Programs Overview -->
-  <section class="light-bg">
-    <div class="container">
-      <h2 class="section-title">Train Your Way</h2>
-      <p class="section-subtitle">
-        Whether you want structured programs you can follow on your own, or personalized 
-        coaching tailored to your goals — we've built both.
-      </p>
-      
-      <div class="grid-3">
-        <div class="card">
-          <img src="assets/program-1.png" alt="Savage Society">
-          <h3>Savage Society</h3>
-          <p>
-            Your all-access pass to workouts, community, and monthly programs. 
-            Train from your phone with proven muscle-building and fat-loss programs 
-            designed by Xenia.
-          </p>
-          <a href="subscription.html" class="btn btn-primary">Explore All Access</a>
+<body>
+    <!-- SECTION 1: NAVIGATION -->
+    <nav class="nav">
+        <div class="nav-logo">
+            <img src="assets/logo-white.png" alt="Savage Fit">
         </div>
-        
-        <div class="card">
-          <img src="assets/coaching-img.png" alt="1-on-1 Coaching">
-          <h3>Savage Coaching</h3>
-          <p>
-            Premium 1-on-1 online coaching with Xenia. Fully customized training and nutrition, 
-            bi-weekly check-ins, and direct access to an IFBB Pro who's been exactly where you are.
-          </p>
-          <a href="training.html" class="btn btn-primary">Apply for Coaching</a>
+        <button class="menu-btn">MENU</button>
+    </nav>
+
+    <!-- SECTION 2: HERO -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="assets/blog-hero.jpg" alt="Xenia Busigin">
+            <div class="hero-gradient"></div>
         </div>
-        
-        <div class="card">
-          <img src="assets/challenge-bg.png" alt="Savage In 6">
-          <h3>Savage In 6</h3>
-          <p>
-            6-week transformation challenges built for results. Choose your goal: 
-            Savage Gains, Savage Shred, or Savage Lifestyle. New cohorts start monthly.
-          </p>
-          <a href="challenges.html" class="btn btn-primary">Join a Challenge</a>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- About Xenia -->
-  <section>
-    <div class="container">
-      <div class="grid-2" style="align-items: center;">
-        <div>
-          <img src="assets/hero-banner.png" alt="Xenia Busigin" style="border-radius: 24px; width: 100%;">
-        </div>
-        
-        <div>
-          <h2 class="section-title">Meet Xenia</h2>
-          <p style="font-size: 1.2rem; line-height: 1.8; color: var(--gray-text); margin-bottom: 2rem;">
-            IFBB Pro Figure Athlete. Lifelong competitor. Coach to over 1,000 women who refused to settle.
-          </p>
-          
-          <p style="font-size: 1.1rem; line-height: 1.8; color: var(--muted-text); margin-bottom: 1.5rem;">
-            I didn't build Savage Fit to be another generic fitness brand. I built it because I was 
-            sick of watching women starve themselves, waste hours on cardio, and feel intimidated 
-            in gyms designed for men.
-          </p>
-          
-          <p style="font-size: 1.1rem; line-height: 1.8; color: var(--muted-text); margin-bottom: 2rem;">
-            Lifting weights doesn't make you bulky — it makes you powerful. Eating enough doesn't 
-            make you fat — it fuels your transformation. And strength training isn't just about 
-            aesthetics. It's about becoming the most confident, capable version of yourself.
-          </p>
-          
-          <a href="training.html" class="btn btn-primary">Work With Xenia</a>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Testimonials -->
-  <section class="light-bg">
-    <div class="container">
-      <h2 class="section-title">Real Women. Real Results.</h2>
-      <p class="section-subtitle">
-        These aren't paid actors. They're Savage Society members and coaching clients who 
-        showed up, trusted the process, and transformed their lives.
-      </p>
-      
-      <div class="grid-2">
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            I finally have abs AND I can deadlift 225 lbs. I never thought I'd be 'that girl' 
-            at the gym. Xenia's programs taught me how to lift properly, eat enough, and 
-            actually enjoy training.
-          </p>
-          <div class="testimonial-author">
-            <div>
-              <strong>Giselle A.</strong><br>
-              <span>Lost 18 lbs of fat, Gained 8 lbs of muscle</span>
+        <div class="hero-content">
+            <div class="hero-left">
+                <p class="hero-tagline">Your transformation starts here</p>
+                <h1 class="hero-headline">
+                    <span class="word">Stronger.</span>
+                    <span class="word">Fiercer.</span>
+                    <span class="word">You.</span>
+                </h1>
             </div>
-          </div>
-        </div>
-        
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            Xenia didn't just give me a workout plan — she gave me a roadmap to the body 
-            I've always wanted. Within 12 weeks, I added 2 inches to my glutes and finally 
-            understood what 'training with purpose' meant.
-          </p>
-          <div class="testimonial-author">
-            <div>
-              <strong>Lidia F.</strong><br>
-              <span>Gained 2" on glutes, Lost 3% body fat</span>
+            <div class="hero-right">
+                <p class="hero-text">Join the Savage Society and transform your body with personalized training, expert coaching, and a fierce community of women who lift each other up.</p>
+                <a href="#programs" class="cta-btn">
+                    <span>Start Your Journey</span>
+                    <div class="cta-arrow">→</div>
+                </a>
             </div>
-          </div>
         </div>
-        
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            After having my second baby, I felt weak and disconnected from my body. 
-            Savage Society gave me the structure and community I needed. 9 months later, 
-            I'm deadlifting more than I did pre-pregnancy.
-          </p>
-          <div class="testimonial-author">
-            <div>
-              <strong>Joanne B.</strong><br>
-              <span>Postpartum transformation, PRs in every lift</span>
+    </section>
+
+    <!-- SECTION 3: MEET THE TEAM -->
+    <section class="meet-team">
+        <h2 class="decorative-text">Meet The Team</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="assets/program-1.png" alt="Team member">
             </div>
-          </div>
-        </div>
-        
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            I was terrified of lifting heavy. Now I'm the girl benching in the free weight 
-            section. Savage Society taught me that lifting doesn't make you bulky — it makes 
-            you sculpted. And I feel like a badass.
-          </p>
-          <div class="testimonial-author">
-            <div>
-              <strong>Jolene</strong><br>
-              <span>Gained 5 lbs of muscle, dropped 2 dress sizes</span>
+            <div class="team-card">
+                <img src="assets/program-2.png" alt="Team member">
             </div>
-          </div>
-        </div>
-        
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            Xenia took me from 'I want to compete someday' to IFBB stage-ready in 16 weeks. 
-            Her online coaching was better than any in-person trainer I've worked with. 
-            I placed 2nd in my first show.
-          </p>
-          <div class="testimonial-author">
-            <div>
-              <strong>Brittany T.</strong><br>
-              <span>2nd place IFBB Bikini Novice</span>
+            <div class="team-card">
+                <img src="assets/program-3.png" alt="Team member">
             </div>
-          </div>
         </div>
-        
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            I came to Xenia after years of yo-yo dieting and extreme cardio. She rebuilt me 
-            from the ground up. 20 weeks later, I have abs for the first time in my life 
-            AND I'm eating more than I ever have. This is sustainable.
-          </p>
-          <div class="testimonial-author">
-            <div>
-              <strong>Sarah W.</strong><br>
-              <span>Lost 22 lbs, Reverse-dieted to maintenance</span>
+    </section>
+
+    <!-- SECTION 4: THREE FEATURE BLOCKS -->
+    <section class="features" id="programs">
+        <div class="features-header">
+            <p class="section-label">Subscription Programs</p>
+            <h2 class="section-title">Savage Society <span class="pink">Subscription</span></h2>
+            <p class="section-desc">Ready to get addicted to your own transformation? Our Savage Society Subscription is for the independent queens who don't need hand-holding – just killer workouts that hit different every single time.</p>
+        </div>
+
+        <div class="feature-cards">
+            <div class="feature-card">
+                <div class="feature-gradient gradient-warm"></div>
+                <div class="feature-content">
+                    <h3>Strength & Muscle Building.</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            Offseason Booty Gains, Booty Building programs and more
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            Progressive training with demonstrations & tracking tools
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            Gym and home versions available for maximum flexibility
+                        </li>
+                    </ul>
+                    <p class="feature-desc">Build curves that kill and strength that speaks volumes with our elite-designed programs.</p>
+                </div>
             </div>
-          </div>
+
+            <div class="feature-card">
+                <div class="feature-gradient gradient-cool"></div>
+                <div class="feature-content">
+                    <h3>Community & Support</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            Exclusive access to our tight-knit online community
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            Ongoing coach interaction and support
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            Share progress, ask questions, and celebrate together
+                        </li>
+                    </ul>
+                    <p class="feature-desc">Join the Savage Society – your fierce tribe of like-minded queens crushing their goals together.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-gradient gradient-pink"></div>
+                <div class="feature-content">
+                    <h3>Weight Loss & Fat Burn.</h3>
+                    <div class="dumbbell-emoji">💪</div>
+                    <ul class="feature-list">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            All programs: Shred, Lifestyle, HIIT Conditioning
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            Discounts on coaching, meal plans & challenges
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            MyFitnessPal integration with all tracking tools
+                        </li>
+                    </ul>
+                    <p class="feature-desc">Unlimited access to our complete library of game-changing programs that rotate monthly.</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Features -->
-  <section>
-    <div class="container">
-      <h2 class="section-title">Why Savage Fit?</h2>
-      <p class="section-subtitle">
-        Because cookie-cutter plans don't build exceptional results. And you deserve exceptional.
-      </p>
-      
-      <div class="grid-3">
-        <div class="card">
-          <img src="assets/feature-1.png" alt="No Cookie-Cutter Plans">
-          <h3>No Cookie-Cutter Plans</h3>
-          <p>
-            Every program is designed with progression in mind — from beginner to advanced. 
-            Your body, your goals, your timeline.
-          </p>
+
+        <a href="#prices" class="cta-btn-pink">
+            <span>Get Started Today</span>
+            <div class="cta-arrow">→</div>
+        </a>
+    </section>
+
+    <!-- SECTION 5: FULL-WIDTH LIFESTYLE IMAGE -->
+    <section class="lifestyle-break">
+        <img src="assets/wide-feature.png" alt="Your Come Back is Programmed">
+        <div class="lifestyle-overlay">
+            <h2>Your Come Back is Programmed</h2>
         </div>
-        
-        <div class="card">
-          <img src="assets/feature-2.png" alt="Real Nutrition Science">
-          <h3>Real Nutrition Science</h3>
-          <p>
-            You'll eat enough to fuel muscle growth and fat loss. No starvation. No guilt. 
-            No BS diets that leave you miserable.
-          </p>
+    </section>
+
+    <!-- SECTION 6: 2x2 CARD GRID -->
+    <section class="bento-grid">
+        <div class="bento-card pink-magenta">
+            <h3>Choose Your Vision</h3>
+            <p>Tell us your goals – whether it's building curves, getting shredded, or feeling absolutely unstoppable. We'll match you with the perfect approach.</p>
         </div>
-        
-        <div class="card">
-          <img src="assets/feature-3.png" alt="Community That Lifts You">
-          <h3>Community That Lifts You</h3>
-          <p>
-            Join a sisterhood of savage women who lift each other up — literally and 
-            figuratively. No judgment. Just support.
-          </p>
+        <div class="bento-card pink-peach">
+            <h3>Get Your Custom Blueprint</h3>
+            <p>Receive a personalized training and meal plan designed around YOUR body, lifestyle, and goals.</p>
         </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Final CTA -->
-  <section class="light-bg">
-    <div class="container" style="text-align: center; max-width: 900px; margin: 0 auto;">
-      <h2 class="section-title">Your Transformation Starts Now</h2>
-      <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">
-        You've read this far because you're ready. You're done with workouts that don't work, 
-        diets that leave you starving, and feeling lost in the gym. You're ready to invest 
-        in yourself. To stop waiting for 'someday.' To build the body and confidence you've 
-        always deserved.
-      </p>
-      
-      <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 3rem; color: var(--primary-text);">
-        The only question left is: Are you ready?
-      </p>
-      
-      <div class="hero-cta">
-        <a href="subscription.html" class="btn btn-primary">Join Savage Society — $47/month</a>
-        <a href="training.html" class="btn btn-secondary">Apply for 1-on-1 Coaching</a>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-section">
-        <h4>Savage Fit</h4>
-        <p style="color: rgba(255,255,255,0.7); line-height: 1.7;">
-          IFBB Pro online fitness coaching for women who lift. 
-          Build muscle. Burn fat. Become savage.
-        </p>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Programs</h4>
-        <ul>
-          <li><a href="subscription.html">Savage Society (All Access)</a></li>
-          <li><a href="training.html">1-on-1 Coaching</a></li>
-          <li><a href="challenges.html">Savage In 6 Challenges</a></li>
-          <li><a href="spring-aesthetic.html">Spring Aesthetic Challenge</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="#about">About Xenia</a></li>
-          <li><a href="#testimonials">Transformations</a></li>
-          <li><a href="mailto:bodybyxenia@gmail.com">Contact</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Connect</h4>
-        <ul>
-          <li><a href="https://trainerize.me/profile/ahf/" target="_blank">Trainerize App</a></li>
-          <li><a href="mailto:bodybyxenia@gmail.com">Email Us</a></li>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <p>&copy; 2026 Savage Fit by Xenia Busigin, IFBB Pro. All rights reserved.</p>
-    </div>
-  </footer>
-  
-  <!-- Main JavaScript -->
-  <script src="main.js"></script>
+        <div class="bento-card soft-pink">
+            <h3>Train With Purpose</h3>
+            <p>Follow your custom plan through our app with video demonstrations, progress tracking, and access to Xenia for guidance.</p>
+        </div>
+        <div class="bento-card lavender-blue">
+            <h3>Weekly Check-Ins</h3>
+            <p>Stay accountable with weekly check-ins including measurements, progress photos, and program adjustments. Your coach monitors every detail.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 7: PHOTO BREAK -->
+    <section class="photo-break">
+        <img src="assets/bento-img-2.png" alt="Lifestyle">
+    </section>
+
+    <!-- SECTION 8: FAQ -->
+    <section class="faq">
+        <div class="faq-header">
+            <h2><span class="black">Questions?</span><br><span class="pink-script">We've got answers.</span></h2>
+            <p>Find answers to the most common questions about Savage Fit</p>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is Savage?</span>
+                    <button class="faq-toggle">+</button>
+                </div>
+                <div class="faq-answer">
+                    <p>Savage Fit is an online coaching community led by IFBB Figure pro Xenia Busigin to help you get fit and smash your fitness goals. We use a fitness application which gives you your workouts with video demonstrations and allows you to track your progress in real time.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is Savage Subscription?</span>
+                    <button class="faq-toggle">+</button>
+                </div>
+                <div class="faq-answer">
+                    <p>Savage subscription is a self guided subscription to all of the workout libraries allowing you to select workouts that are appropriate for your goals. You can change your program anytime by messaging Xenia and track your workouts, meals, weight, and photos in the app.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can beginners join?</span>
+                    <button class="faq-toggle">+</button>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! Whether you're just starting or looking to level up your training, our programs cater to all fitness levels, from beginners to advanced athletes.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I get started?</span>
+                    <button class="faq-toggle">+</button>
+                </div>
+                <div class="faq-answer">
+                    <p>Just choose a plan, sign up, and your coach will guide you through the next steps. You'll receive everything you need to begin your fitness journey right away.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 9: TESTIMONIALS -->
+    <section class="testimonials">
+        <h2 class="decorative-text">What Our Clients Say</h2>
+        <div class="testimonials-scroll">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <h4>Working out 6x a week</h4>
+                <p>"Your knowledge, level of firmness, calling out bs in the most professional way, all while being relatable. I can now hit the weight room with a confidence I didn't have previously."</p>
+                <span class="client-name">— Giselle A.</span>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <h4>Best decision I've made</h4>
+                <p>"I loved the guidance and the community. I felt I was part of something, I wasn't just going to the gym. Thank you Xenia."</p>
+                <span class="client-name">— Lidia F.</span>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <h4>You take the time for everyone</h4>
+                <p>"I have never in my entire life been apart of such an amazing family. I'm honestly addicted LOL!"</p>
+                <span class="client-name">— Joanne B.</span>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <h4>Takes the time and truly cares</h4>
+                <p>"I love the support and realness you bring to our family. Thanks for all you do."</p>
+                <span class="client-name">— Jolene</span>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <h4>Stronger and more confident</h4>
+                <p>"I honestly grew a lot more in this program than I could've imagined. I have learned a lot about myself."</p>
+                <span class="client-name">— Brittany T.</span>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <h4>I love being part of the family</h4>
+                <p>"Working with Xenia is always an awesome experience. I learn so much from her."</p>
+                <span class="client-name">— Sarah W.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 10: NEWSLETTER CTA -->
+    <section class="newsletter" id="prices">
+        <div class="newsletter-content">
+            <h2>Join our newsletter for tips, advice and offers!</h2>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- SECTION 11: FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/logo-white.png" alt="Savage Fit">
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="training.html">1-1 Training</a>
+                <a href="subscription.html">Subscriptions</a>
+                <a href="challenges.html">Challenges</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/ifbb_pro_xenia" target="_blank" aria-label="Instagram">📷</a>
+                <a href="https://www.facebook.com/groups/savagefitcommunity" target="_blank" aria-label="Facebook">📘</a>
+            </div>
+            <p class="footer-copy">© 2025 Savage Fit. All rights reserved.</p>
+            <p class="footer-contact">Contact: Xeniaa@gmail.com</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
 </body>
 </html>
