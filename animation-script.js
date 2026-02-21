@@ -220,20 +220,17 @@
   })();
 
   // ========================================
-  // 8. HIDE FRAMER SSR DUPLICATE NAV
+  // 8. HIDE FRAMER SSR NAV OPEN VARIANT
   // ========================================
-  // Framer renders multiple responsive variants. Without Framer JS, they all show.
-  // Hide the "mobile" and "tablet" SSR variants to avoid duplicated nav elements.
+  // The Framer nav renders both "closed" (pill button) and "open" (links panel) variants.
+  // Without Framer JS, both show. Hide the open nav links panel (class framer-2678bb).
   (function cleanFramerSSR() {
-    // The first nav's SSR variant (hidden-pqv1nm hidden-aqquw) = desktop variant, keep it
-    // Any nav inside hidden-53b06i or hidden-xmbfd5 alone = mobile/tablet, hide content  
-    const allNavs = document.querySelectorAll('nav[data-framer-name="Navbar"]');
-    // Just ensure only one nav is interactable
-    if (allNavs.length > 1) {
-      for (let i = 1; i < allNavs.length; i++) {
-        allNavs[i].style.display = 'none';
-      }
-    }
+    // Hide the open nav links panel that appears on the right side
+    const style = document.createElement('style');
+    style.textContent = `
+      .framer-2678bb { display: none !important; }
+    `;
+    document.head.appendChild(style);
   })();
 
   console.log('Savage Fit V5.4 initialized');
