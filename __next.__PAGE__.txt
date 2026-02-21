@@ -1,9 +1,0 @@
-1:"$Sreact.fragment"
-2:I[51411,["/savage-fit-website/_next/static/chunks/4afd0e3564f4ecb8.js","/savage-fit-website/_next/static/chunks/78fe6a031d2b5bca.js"],"ClientPageRoot"]
-3:I[15086,["/savage-fit-website/_next/static/chunks/4afd0e3564f4ecb8.js","/savage-fit-website/_next/static/chunks/3971f2c6d4535abe.js"],"default"]
-6:I[37201,["/savage-fit-website/_next/static/chunks/4afd0e3564f4ecb8.js","/savage-fit-website/_next/static/chunks/78fe6a031d2b5bca.js"],"OutletBoundary"]
-7:"$Sreact.suspense"
-0:{"buildId":"80Qbn0rgSyII_UdgJpp9u","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/savage-fit-website/_next/static/chunks/4afd0e3564f4ecb8.js","async":true}],["$","script","script-1",{"src":"/savage-fit-website/_next/static/chunks/3971f2c6d4535abe.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
-4:{}
-5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
-8:null

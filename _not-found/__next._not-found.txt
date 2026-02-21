@@ -1,4 +1,0 @@
-1:"$Sreact.fragment"
-2:I[29860,["/savage-fit-website/_next/static/chunks/4afd0e3564f4ecb8.js","/savage-fit-website/_next/static/chunks/78fe6a031d2b5bca.js"],"default"]
-3:I[68703,["/savage-fit-website/_next/static/chunks/4afd0e3564f4ecb8.js","/savage-fit-website/_next/static/chunks/78fe6a031d2b5bca.js"],"default"]
-0:{"buildId":"80Qbn0rgSyII_UdgJpp9u","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}

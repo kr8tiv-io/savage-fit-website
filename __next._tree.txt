@@ -1,2 +1,0 @@
-:HL["/savage-fit-website/_next/static/chunks/d68c968ce8924701.css","style"]
-0:{"buildId":"80Qbn0rgSyII_UdgJpp9u","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
