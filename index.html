@@ -107,31 +107,30 @@
 
 <!-- ==================== HERO ==================== -->
 <section style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:linear-gradient(135deg, var(--hero-pink) 0%, var(--hero-lavender) 50%, var(--hero-blue) 100%);">
-  <!-- Xenia cutout - centered -->
-  <div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;">
-    <img src="assets/blog-hero.jpg" alt="Xenia Busigin" style="max-height:90vh;width:auto;object-fit:contain;" loading="eager">
+  <!-- Xenia cutout - positioned center-right, anchored to bottom -->
+  <div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;padding-right:5%;">
+    <img src="assets/hero-banner.png" alt="Xenia Busigin - IFBB Figure Pro" style="height:92vh;width:auto;object-fit:contain;object-position:bottom;" loading="eager">
   </div>
-  <div class="container" style="position:relative;z-index:10;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
-      <!-- Left: Headline -->
+  <div class="container" style="position:relative;z-index:10;height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:80px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;">
+      <!-- Left: Headline pushed to bottom-left -->
       <div>
-        <p style="color:#fff;font-size:18px;font-weight:800;letter-spacing:0.36px;line-height:19.8px;opacity:0.9;margin-bottom:8px;">Xenia Busigin</p>
-        <p style="color:#fff;font-size:18px;font-weight:800;letter-spacing:0.36px;line-height:19.8px;opacity:0.9;margin-bottom:24px;">★ IFBB Figure Pro</p>
+        <p style="color:#fff;font-size:18px;font-weight:800;letter-spacing:0.36px;line-height:19.8px;opacity:0.9;margin-bottom:24px;">Xenia Busigin ★ IFBB Figure Pro</p>
         <div class="hero-headline">
           <div class="hero-word" style="font-size:clamp(64px,8vw,107px);font-weight:800;line-height:0.96;letter-spacing:-8.5px;color:#fff;">Stronger.</div>
           <div class="hero-word" style="font-size:clamp(64px,8vw,107px);font-weight:800;line-height:0.96;letter-spacing:-8.5px;color:#fff;">Fiercer.</div>
           <div class="hero-word" style="font-size:clamp(64px,8vw,107px);font-weight:800;line-height:0.96;letter-spacing:-8.5px;color:#fff;">You.</div>
         </div>
       </div>
-      <!-- Right: Description + CTA -->
+      <!-- Right: Description + CTA at bottom-right -->
       <div style="padding-left:48px;">
-        <p style="color:#fff;font-size:18px;font-weight:500;line-height:1.7;opacity:0.95;max-width:400px;margin-bottom:32px;">
-          Transform your body and mind with personalized fitness coaching designed for real women seeking real results.
+        <p style="color:#fff;font-size:18px;font-weight:500;line-height:1.7;opacity:0.95;max-width:420px;margin-bottom:32px;">
+          Unleash your potential with elite-level coaching. Online training, group challenges, and a supportive community – wherever you are in your journey.
         </p>
         <a href="#pricing" class="pill-btn pill-btn-white">
           Start Right Now
           <span style="width:40px;height:40px;border-radius:50%;background:var(--accent-dark-teal);display:flex;align-items:center;justify-content:center;">
-            <svg width="20" height="20" fill="none" stroke="#fff" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            <svg width="20" height="20" fill="none" stroke="#fff" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7v10"/></svg>
           </span>
         </a>
       </div>
