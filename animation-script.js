@@ -140,6 +140,23 @@
       el.style.display = 'none';
     });
 
+    // Fix Framer's constrained heights — the accordion wrapper and item containers
+    // have fixed heights set by Framer expecting JS to animate them
+    const accordionWrapper = document.querySelector('.framer-rYRFU');
+    if (accordionWrapper) accordionWrapper.style.height = 'auto';
+    
+    // Fix each item container wrapper (they have height:0 from Framer)
+    document.querySelectorAll('.framer-ozPhw').forEach(el => {
+      const container = el.closest('[class*="-container"]');
+      if (container && container.offsetHeight === 0) {
+        container.style.height = 'auto';
+      }
+    });
+    
+    // Also fix the outer FAQ container if it has a fixed height
+    const outerContainer = document.querySelector('.framer-ag6qel-container');
+    if (outerContainer) outerContainer.style.height = 'auto';
+
     // Find all actual Item Containers
     const itemContainers = document.querySelectorAll('.framer-dca6r5');
     if (!itemContainers.length) return;
