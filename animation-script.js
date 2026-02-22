@@ -145,11 +145,13 @@
     const accordionWrapper = document.querySelector('.framer-rYRFU');
     if (accordionWrapper) accordionWrapper.style.height = 'auto';
     
-    // Fix each item container wrapper (they have height:0 from Framer)
+    // Fix each FAQ item and its container wrapper (both have height:0 from Framer)
     document.querySelectorAll('.framer-ozPhw').forEach(el => {
+      el.style.setProperty('height', 'auto', 'important');
+      el.style.setProperty('min-height', 'auto', 'important');
       const container = el.closest('[class*="-container"]');
-      if (container && container.offsetHeight === 0) {
-        container.style.height = 'auto';
+      if (container) {
+        container.style.setProperty('height', 'auto', 'important');
       }
     });
     
