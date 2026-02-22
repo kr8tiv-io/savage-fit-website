@@ -145,19 +145,32 @@
     const accordionWrapper = document.querySelector('.framer-rYRFU');
     if (accordionWrapper) accordionWrapper.style.height = 'auto';
     
-    // Fix each FAQ item and its container wrapper (both have height:0 from Framer)
-    document.querySelectorAll('.framer-ozPhw').forEach(el => {
-      el.style.setProperty('height', 'auto', 'important');
-      el.style.setProperty('min-height', 'auto', 'important');
-      const container = el.closest('[class*="-container"]');
-      if (container) {
-        container.style.setProperty('height', 'auto', 'important');
+    // Fix Framer FAQ layout: Item Containers are position:absolute (stacked) — need to be static
+    // Also force all containers to proper height
+    const faqStyle = document.createElement('style');
+    faqStyle.textContent = `
+      .framer-ozPhw .framer-dca6r5 {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
       }
-    });
-    
-    // Also fix the outer FAQ container if it has a fixed height
-    const outerContainer = document.querySelector('.framer-ag6qel-container');
-    if (outerContainer) outerContainer.style.height = 'auto';
+      .framer-ozPhw {
+        height: auto !important;
+        min-height: auto !important;
+      }
+      .framer-rYRFU {
+        height: auto !important;
+      }
+      .framer-ag6qel-container {
+        height: auto !important;
+      }
+      /* Fix each item's container wrapper */
+      [class*="-container"]:has(> .framer-ozPhw) {
+        height: auto !important;
+      }
+    `;
+    document.head.appendChild(faqStyle);
 
     // Find all actual Item Containers
     const itemContainers = document.querySelectorAll('.framer-dca6r5');
