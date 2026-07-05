@@ -85,79 +85,6 @@ function CustomPlans() {
   )
 }
 
-function TrainWithMatt() {
-  return (
-    <section className="section section--line">
-      <div className="container">
-        <div className="grid-2" style={{ alignItems: 'start', marginBottom: 'clamp(40px, 6vw, 72px)' }}>
-          <div style={{ position: 'sticky', top: 'calc(var(--nav-h) + 32px)' }}>
-            <SectionHead
-              num="02"
-              kicker="Train with Matt"
-              title={
-                <>
-                  One coach.
-                  <br />
-                  Every <span className="serif-i">detail</span>.
-                </>
-              }
-              lede={
-                <>
-                  Every Train-with-Matt plan is the full package: a{' '}
-                  <strong>completely customized program and meal plan</strong>, weekly check-ins,
-                  and adjustments as required. Pick the runway that matches your commitment.
-                </>
-              }
-            />
-          </div>
-          <Frame src="/img/coach-matt.png" alt="Coach Matt Haynes" ratio="4 / 5" parallax={14} />
-        </div>
-        <div className="grid-3">
-          <PriceCard
-            plan="1 Month"
-            price="$250"
-            per="/1 month"
-            href={checkout.mattMonthly}
-            features={[
-              '1 month of 1-on-1 coaching with Matt',
-              'Fully customized training program',
-              'Custom meal plan included',
-              'Weekly check-ins + adjustments as required',
-            ]}
-          />
-          <PriceCard
-            plan="3 Months"
-            price="$600"
-            per="/3 months"
-            href={checkout.mattQuarterly}
-            hot
-            delay={0.12}
-            features={[
-              '3 months of 1-on-1 coaching with Matt',
-              'Fully customized training program',
-              'Custom meal plan included',
-              'Weekly check-ins + adjustments as required',
-            ]}
-          />
-          <PriceCard
-            plan="12 Months"
-            price="$900"
-            per="/12 months"
-            href={checkout.mattYearly}
-            delay={0.24}
-            features={[
-              '12 months of 1-on-1 coaching with Matt',
-              'Fully customized training program',
-              'Custom meal plan included',
-              'Weekly check-ins + adjustments as required',
-            ]}
-          />
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function TrainWithAngie() {
   return (
     <section className="section section--line">
@@ -166,7 +93,7 @@ function TrainWithAngie() {
           <Frame src="/img/coach-angie.png" alt="Coach Angie Romayor-Eisele" ratio="4 / 5" parallax={14} />
           <div style={{ position: 'sticky', top: 'calc(var(--nav-h) + 32px)' }}>
             <SectionHead
-              num="03"
+              num="02"
               kicker="Train with Angie"
               title={
                 <>
@@ -236,7 +163,7 @@ function MensHomeSavage() {
     <section className="section section--line" style={{ overflow: 'clip' }}>
       <div className="container">
         <SectionHead
-          num="04"
+          num="03"
           kicker="Men's Home Savage · Intense"
           title={
             <>
@@ -317,8 +244,8 @@ function FinalCta() {
     <section className="section section--line" style={{ overflow: 'clip' }}>
       <div className="container">
         <Frame
-          src="/img/xenia-wide.png"
-          alt="Xenia Busigin, IFBB Figure Pro — Body by Xenia"
+          src="/img/beach.jpg"
+          alt="Balance and recovery — the Body by Xenia lifestyle"
           ratio="3 / 1"
           parallax={10}
         />
@@ -393,7 +320,6 @@ export default function Products() {
         </div>
       </PageHero>
       <CustomPlans />
-      <TrainWithMatt />
       <TrainWithAngie />
       <MensHomeSavage />
       <FinalCta />

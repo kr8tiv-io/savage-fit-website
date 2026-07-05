@@ -22,6 +22,13 @@ export default function App() {
       <Cursor />
       <Preloader />
       <Nav />
+      <motion.div
+        key={`veil-${location.pathname}`}
+        className="veil"
+        initial={{ y: 0 }}
+        animate={{ y: '-101%' }}
+        transition={{ duration: 0.75, ease: [0.76, 0, 0.24, 1], delay: 0.05 }}
+      />
       <motion.main
         key={location.pathname}
         initial={{ opacity: 0, y: 26 }}

@@ -106,6 +106,40 @@ export default function HeroCanvas() {
     const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat)
     scene.add(quad)
 
+    // fine sparkle dust drifting upward — subtle depth over the aurora
+    const COUNT = 110
+    const pos = new Float32Array(COUNT * 3)
+    const col = new Float32Array(COUNT * 3)
+    const speed = new Float32Array(COUNT)
+    const cRose = new THREE.Color('#d94f96')
+    const cLilac = new THREE.Color('#8a63d2')
+    const cWhite = new THREE.Color('#ffffff')
+    for (let i = 0; i < COUNT; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 2
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 2
+      pos[i * 3 + 2] = 0.1
+      speed[i] = 0.02 + Math.random() * 0.05
+      const t = Math.random()
+      const c = (t < 0.4 ? cRose : t < 0.75 ? cLilac : cWhite).clone()
+      c.lerp(cWhite, 0.35 + Math.random() * 0.3)
+      col[i * 3] = c.r
+      col[i * 3 + 1] = c.g
+      col[i * 3 + 2] = c.b
+    }
+    const dustGeo = new THREE.BufferGeometry()
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
+    dustGeo.setAttribute('color', new THREE.BufferAttribute(col, 3))
+    const dustMat = new THREE.PointsMaterial({
+      size: 3.2,
+      sizeAttenuation: false,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.5,
+      depthWrite: false,
+    })
+    const dust = new THREE.Points(dustGeo, dustMat)
+    scene.add(dust)
+
     const target = new THREE.Vector2(0, 0)
     const onMouse = (e: MouseEvent) => {
       target.set(e.clientX / window.innerWidth - 0.5, e.clientY / window.innerHeight - 0.5)
@@ -121,8 +155,21 @@ export default function HeroCanvas() {
     const clock = new THREE.Clock()
     let raf = 0
     const tick = () => {
+      const dt = Math.min(clock.getDelta(), 0.05)
       uniforms.uTime.value = clock.getElapsedTime()
       uniforms.uMouse.value.lerp(target, 0.04)
+      const p = dustGeo.attributes.position.array as Float32Array
+      for (let i = 0; i < COUNT; i++) {
+        p[i * 3 + 1] += speed[i] * dt
+        p[i * 3] += Math.sin(uniforms.uTime.value * 0.4 + i) * 0.00018
+        if (p[i * 3 + 1] > 1.05) {
+          p[i * 3 + 1] = -1.05
+          p[i * 3] = (Math.random() - 0.5) * 2
+        }
+      }
+      dustGeo.attributes.position.needsUpdate = true
+      dust.position.x = uniforms.uMouse.value.x * 0.05
+      dust.position.y = -uniforms.uMouse.value.y * 0.04
       renderer.render(scene, camera)
       raf = requestAnimationFrame(tick)
     }
@@ -140,6 +187,8 @@ export default function HeroCanvas() {
       window.removeEventListener('resize', onResize)
       quad.geometry.dispose()
       mat.dispose()
+      dustGeo.dispose()
+      dustMat.dispose()
       renderer.dispose()
       el.removeChild(renderer.domElement)
     }

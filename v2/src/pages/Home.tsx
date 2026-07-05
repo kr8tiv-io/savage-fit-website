@@ -143,12 +143,12 @@ function Hero() {
   useGSAP(
     () => {
       gsap.fromTo(
-        '.hero-portrait',
-        { opacity: 0, y: 70 },
-        { opacity: 1, y: 0, duration: 1.5, delay: 1.05, ease: 'power4.out' },
+        '.splash img',
+        { scale: 1.09, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.7, delay: 0.85, ease: 'power3.out' },
       )
-      gsap.to('.hero-portrait', {
-        y: -50,
+      gsap.to('.splash', {
+        yPercent: 7,
         scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true },
       })
     },
@@ -162,93 +162,48 @@ function Hero() {
         minHeight: '100svh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end',
         position: 'relative',
         overflow: 'clip',
-        paddingTop: 'var(--nav-h)',
+        paddingTop: 'calc(var(--nav-h) + clamp(14px, 3vh, 44px))',
       }}
     >
       <HeroCanvas />
+
       <div
-        aria-hidden
         style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'linear-gradient(180deg, rgba(253,251,250,0.55), rgba(253,251,250,0.12) 34%, rgba(253,251,250,0.16) 70%, rgba(253,251,250,0.92))',
-          zIndex: 1,
-          pointerEvents: 'none',
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          position: 'relative',
+          zIndex: 2,
         }}
-      />
-
-      <div
-        className="container"
-        style={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', alignItems: 'center' }}
       >
-        <div style={{ width: '100%', position: 'relative' }}>
-          {/* blended portrait — pale studio background melts into the page */}
-          <div
-            className="hero-portrait"
-            style={{
-              position: 'absolute',
-              right: 'clamp(-30px, 0vw, 40px)',
-              bottom: '-8%',
-              width: 'clamp(230px, 29vw, 450px)',
-              zIndex: 1,
-              pointerEvents: 'none',
-            }}
-          >
-            <div
-              aria-hidden
-              style={{
-                position: 'absolute',
-                inset: '-12% -18%',
-                background:
-                  'radial-gradient(55% 48% at 50% 42%, var(--wash-pink), transparent 68%), radial-gradient(45% 40% at 62% 60%, var(--wash-lilac), transparent 70%)',
-                filter: 'blur(6px)',
-              }}
-            />
-            <img
-              src="/img/cut/xenia-face.png"
-              alt="Xenia Busigin, IFBB Figure Pro"
-              className="fade-b"
-              style={{ position: 'relative', width: '100%' }}
-            />
-            <motion.span
-              className="script"
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.7, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                position: 'absolute',
-                left: '-30%',
-                bottom: '22%',
-                fontSize: 'clamp(1.8rem, 3.4vw, 3rem)',
-                transform: 'rotate(-6deg)',
-              }}
-            >
-              Xenia Busigin
-            </motion.span>
-          </div>
-
+        <div
+          className="container"
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
+        >
           <motion.span
             className="chip chip--pink"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            style={{ marginBottom: 'clamp(18px, 3vw, 34px)' }}
+            transition={{ delay: 0.5, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            style={{ marginBottom: 'clamp(16px, 2.4vw, 28px)' }}
           >
             <span className="dot" />
             Elite Coaching · IFBB Figure Pro
           </motion.span>
 
-          <h1 className="display d-hero" style={{ position: 'relative', zIndex: 2 }}>
+          <h1
+            className="display d-hero"
+            style={{ position: 'relative', zIndex: 2, marginBottom: '-0.52em', pointerEvents: 'none' }}
+          >
             <span className="split-line" style={{ display: 'block' }}>
               <motion.span
                 style={{ display: 'block' }}
                 initial={{ y: '112%' }}
                 animate={{ y: 0 }}
-                transition={{ delay: 0.7, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.62, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
               >
                 Your body,
               </motion.span>
@@ -258,32 +213,100 @@ function Hero() {
                 style={{ display: 'block' }}
                 initial={{ y: '112%' }}
                 animate={{ y: 0 }}
-                transition={{ delay: 0.84, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.76, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
               >
                 beautifully <span className="serif-i">strong</span>.
               </motion.span>
             </span>
           </h1>
+        </div>
 
+        {/* the original two-tone studio splash, edges dissolved into the page */}
+        <div className="splash" style={{ zIndex: 1 }}>
+          <img
+            src="/img/xenia-wide.png"
+            alt="Xenia Busigin, IFBB Figure Pro, on a rose and blue studio backdrop"
+            style={{ objectPosition: '47% 10%' }}
+          />
+          <motion.span
+            className="script"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.8, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: 'absolute',
+              left: 'clamp(12px, 9%, 200px)',
+              bottom: '16%',
+              fontSize: 'clamp(1.9rem, 3.6vw, 3.4rem)',
+              transform: 'rotate(-6deg)',
+              zIndex: 2,
+            }}
+          >
+            Xenia Busigin
+          </motion.span>
+          <motion.svg
+            className="badge-spin"
+            viewBox="0 0 100 100"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            style={{ right: 'clamp(10px, 7%, 160px)', top: '10%', zIndex: 2 }}
+            aria-hidden
+          >
+            <defs>
+              <path
+                id="badge-circ"
+                d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"
+                fill="none"
+              />
+            </defs>
+            <circle
+              cx="50"
+              cy="50"
+              r="47"
+              fill="rgba(253,251,250,0.55)"
+              stroke="rgba(217,79,150,0.35)"
+              strokeWidth="0.75"
+            />
+            <text
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '7px',
+                fontWeight: 700,
+                letterSpacing: '0.24em',
+                fill: 'var(--pink-hot)',
+              }}
+            >
+              <textPath href="#badge-circ">BODY BY XENIA · IFBB FIGURE PRO · SINCE DAY ONE ·</textPath>
+            </text>
+            <text x="50" y="54" textAnchor="middle" style={{ fontSize: '10px', fill: 'var(--steel)' }}>
+              ✿
+            </text>
+          </motion.svg>
+        </div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 2, marginTop: 'clamp(-56px, -4vw, -20px)' }}>
           <motion.div
             initial={{ opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 1.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: 'flex',
-              gap: 'clamp(20px, 4vw, 56px)',
-              alignItems: 'flex-end',
+              gap: 'clamp(16px, 3vw, 40px)',
+              alignItems: 'center',
+              justifyContent: 'center',
               flexWrap: 'wrap',
-              marginTop: 'clamp(26px, 4vw, 48px)',
-              paddingBottom: 'clamp(40px, 6vw, 72px)',
+              textAlign: 'center',
+              flexDirection: 'column',
+              paddingBottom: 'clamp(30px, 4vw, 56px)',
             }}
           >
-            <p className="lede" style={{ maxWidth: '44ch' }}>
+            <p className="lede" style={{ maxWidth: '54ch' }}>
               Elite-level coaching by <strong>IFBB Figure Pro Xenia Busigin</strong>. Personalized
               online training, group challenges, and a supportive community of women — wherever
               you are in your journey.
             </p>
-            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center' }}>
               <Magnetic>
                 <a className="btn btn--pink" href="#programs">
                   Begin Today <span className="arr">→</span>
@@ -316,7 +339,10 @@ function Hero() {
 
 function About() {
   return (
-    <section className="section" id="about">
+    <section className="section" id="about" style={{ overflow: 'clip' }}>
+      <span className="wm" aria-hidden style={{ top: '4%', right: '-4%' }}>
+        community
+      </span>
       <div className="container grid-2">
         <div>
           <SectionHead
@@ -468,23 +494,23 @@ function Programs() {
     {
       to: '/subscription',
       img: '/img/xenia-portrait.png',
-      pos: '50% 15%',
+      pos: '50% 12%',
       k: 'Self-guided · App-based',
       t: 'Training Subscription',
       d: 'Unlimited access to the full program library — strength, sculpt, lifestyle, glute-focus — rotating monthly so you never plateau.',
     },
     {
       to: '/training',
-      img: '/img/stage-winners.jpg',
-      pos: '50% 30%',
+      img: '/img/ifbb-procard.jpg',
+      pos: '50% 24%',
       k: 'Premium · 1-on-1',
       t: 'Custom Online Coaching',
       d: '100% custom programming, weekly personal check-ins, and direct access to an IFBB Pro. Completely built around you.',
     },
     {
       to: '/spring-aesthetic',
-      img: '/img/transform-4.png',
-      pos: '50% 20%',
+      img: '/img/stage-winners.jpg',
+      pos: '50% 30%',
       k: 'Group · 6 weeks',
       t: 'Six-Week Challenge',
       d: 'Our signature transformation experience. Group energy, prizes, and programs tailored to your goal.',
@@ -548,7 +574,7 @@ function Programs() {
 function Pricing() {
   return (
     <section className="section section--line">
-      <div className="container">
+      <div className="container panel-blush">
         <SectionHead
           num="04"
           kicker="Membership"
@@ -719,16 +745,10 @@ function Steps() {
 function Team() {
   const team = [
     {
-      img: '/img/cut/xenia-portrait.png',
+      img: '/img/cut/xenia-crop.png',
       n: 'Xenia Busigin',
       r: 'Founder · Head Coach · IFBB Figure Pro',
       d: 'IFBB Pro card winner who knows the demands of competition prep and everyday life alike. Xenia has helped hundreds of women transform their bodies and mindsets.',
-    },
-    {
-      img: '/img/cut/coach-matt.png',
-      n: 'Matt Haynes',
-      r: 'Coach · Custom Training',
-      d: 'Matt builds fully customized programs and meal plans with weekly check-ins — effective workouts paired with expert nutrition guidance for sustainable results.',
     },
     {
       img: '/img/cut/coach-angie.png',
@@ -749,7 +769,10 @@ function Team() {
             </>
           }
         />
-        <div className="grid-3">
+        <div
+          className="grid-3"
+          style={{ gridTemplateColumns: 'repeat(2, 1fr)', maxWidth: 940, marginInline: 'auto' }}
+        >
           {team.map((m, i) => (
             <FadeUp key={m.n} delay={i * 0.12}>
               <div className="card" style={{ textAlign: 'center' }}>
@@ -859,6 +882,9 @@ function Faq() {
 function Testimonials() {
   return (
     <section className="section section--line" style={{ overflow: 'clip' }}>
+      <span className="wm" aria-hidden style={{ bottom: '2%', left: '-3%' }}>
+        loved
+      </span>
       <div className="container">
         <SectionHead
           num="10"

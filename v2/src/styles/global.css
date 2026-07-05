@@ -102,8 +102,8 @@ button {
   font-family: var(--font-display);
   font-weight: 480;
   font-variation-settings: 'SOFT' 60, 'WONK' 0, 'opsz' 100;
-  line-height: 1.02;
-  letter-spacing: -0.018em;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
 }
 
 .d-hero {
@@ -830,6 +830,25 @@ button {
   flex: none;
 }
 
+/* route-change veil — porcelain sweep with a gradient edge */
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 995;
+  background: var(--bg);
+  pointer-events: none;
+}
+.veil::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  background: var(--grad);
+  opacity: 0.7;
+}
+
 /* preloader */
 .preloader {
   position: fixed;
@@ -846,8 +865,7 @@ button {
   display: flex;
   align-items: baseline;
   gap: 14px;
-  overflow: hidden;
-  padding-bottom: 10px;
+  padding-bottom: 0.22em;
 }
 .preloader .word .w-serif {
   font-family: var(--font-display);
@@ -872,30 +890,34 @@ button {
   color: var(--pink);
 }
 
-/* cursor */
-.cursor-dot,
-.cursor-ring {
+/* cursor — gradient dot that blooms into a soft halo over interactive elements */
+.cursor-dot {
   position: fixed;
   top: 0;
   left: 0;
+  width: 10px;
+  height: 10px;
   pointer-events: none;
   z-index: 998;
   border-radius: 50%;
+  background: var(--grad);
+  box-shadow: 0 2px 10px rgba(217, 79, 150, 0.35);
 }
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--pink);
-}
-.cursor-ring {
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgba(217, 79, 150, 0.45);
-  transition: width 0.3s, height 0.3s, border-color 0.3s;
+.cursor-halo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  pointer-events: none;
+  z-index: 997;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 79, 150, 0.14), rgba(138, 99, 210, 0.08) 60%, transparent 72%);
+  border: 1px solid rgba(217, 79, 150, 0.35);
 }
 @media (pointer: coarse) {
   .cursor-dot,
-  .cursor-ring {
+  .cursor-halo {
     display: none;
   }
 }
@@ -937,8 +959,82 @@ button {
   color: transparent;
 }
 
+/* rotating circular badge — thin, elegant */
+.badge-spin {
+  position: absolute;
+  width: clamp(96px, 10vw, 136px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  animation: spin 22s linear infinite;
+  opacity: 0.85;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* giant script watermark behind sections */
+.wm {
+  position: absolute;
+  font-family: var(--font-script);
+  font-size: clamp(7rem, 22vw, 20rem);
+  line-height: 1;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.07;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* color-blocked rounded section panel */
+.panel-blush {
+  background: linear-gradient(180deg, #fdf2f8 0%, #f6effc 100%);
+  border: 1px solid rgba(217, 79, 150, 0.14);
+  border-radius: clamp(28px, 4vw, 48px);
+  padding: clamp(36px, 5vw, 88px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* gradient hairline rule */
+.rule-grad {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, rgba(217, 79, 150, 0.5), rgba(138, 99, 210, 0.5), transparent);
+}
+
+/* hero splash — the original two-tone studio shot, edges dissolved into the page */
+.splash {
+  position: relative;
+  width: 100%;
+  height: clamp(300px, 46vw, 620px);
+}
+.splash img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask-image: radial-gradient(118% 118% at 50% 56%, #000 42%, transparent 76%);
+  mask-image: radial-gradient(118% 118% at 50% 56%, #000 42%, transparent 76%);
+}
+.splash::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background:
+    linear-gradient(180deg, var(--bg), rgba(253, 251, 250, 0.35) 16%, transparent 38%, transparent 60%, rgba(253, 251, 250, 0.8) 90%, var(--bg)),
+    linear-gradient(90deg, rgba(253, 251, 250, 0.7), transparent 14%, transparent 86%, rgba(253, 251, 250, 0.7));
+  pointer-events: none;
+}
+
+/* reveal wrapper — padded so Fraunces ascenders/descenders/italic overhangs never clip */
 .split-line {
   overflow: hidden;
+  padding: 0.09em 0.12em 0.16em;
+  margin: -0.09em -0.12em -0.16em;
 }
 
 [data-reveal] {
