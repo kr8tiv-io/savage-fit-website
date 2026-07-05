@@ -4,7 +4,7 @@ import Magnetic from '../components/Magnetic'
 export default function NotFound() {
   return (
     <>
-      <title>Page Not Found — Savage Fit</title>
+      <title>Page Not Found — Body by Xenia</title>
       <section
         className="section"
         style={{

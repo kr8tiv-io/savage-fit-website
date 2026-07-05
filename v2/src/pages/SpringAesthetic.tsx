@@ -306,13 +306,13 @@ function Inside() {
                 position: 'absolute',
                 left: 16,
                 bottom: 16,
-                background: 'rgba(11,11,13,0.65)',
+                background: 'rgba(253,251,250,0.78)',
                 backdropFilter: 'blur(8px)',
                 color: 'var(--ink)',
-                border: '1px solid rgba(245,242,236,0.2)',
+                border: '1px solid rgba(37,28,46,0.14)',
               }}
             >
-              Real Savage results
+              Real client results
             </span>
           </div>
         </FadeUp>
@@ -551,7 +551,7 @@ function FinalCta() {
 export default function SpringAesthetic() {
   return (
     <>
-      <title>Spring Aesthetic — The Glute Growth Protocol | Savage Fit</title>
+      <title>Spring Aesthetic — The Glute Growth Protocol | Body by Xenia</title>
       <PageHero
         chip="Si6 Challenge · 6-Week Protocol"
         title={

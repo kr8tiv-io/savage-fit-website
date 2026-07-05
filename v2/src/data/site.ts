@@ -26,6 +26,13 @@ export const checkout = {
   mensYearly: `${TRAINERIZE}f1463a2406d447c9a726b7a06f6f16f0`,
 }
 
+/* Real Mailchimp list from the original site (BodyByXenia). */
+export const mailchimp = {
+  action:
+    'https://BodyByXenia.us15.list-manage.com/subscribe/post?u=8382210278a2eaeb252a7cd60&id=62d20c99ef&f_id=00f3b7e0f0',
+  honeypot: 'b_8382210278a2eaeb252a7cd60_62d20c99ef',
+}
+
 export const social = {
   instagram: 'https://www.instagram.com/ifbb_pro_xenia',
   facebook: 'https://www.facebook.com/share/g/1FuZt9rNVM/',

@@ -35,16 +35,16 @@ export default function Nav() {
 
   return (
     <>
-      <header className={`nav${scrolled ? ' scrolled' : ''}${hidden && !open ? ' hidden' : ''}`}>
+      <header className={`nav${scrolled && !open ? ' scrolled' : ''}${hidden && !open ? ' hidden' : ''}`}>
         <div className="container nav__inner">
-          <Link to="/" className="nav__logo" onClick={() => setOpen(false)}>
-            <img src="/img/logo-white.png" alt="Savage Fit" />
-            Savage<span style={{ color: 'var(--pink)' }}>Fit</span>
+          <Link to="/" className="nav__logo" onClick={() => setOpen(false)} aria-label="Body by Xenia — home">
+            <span className="word">Body</span>
+            <span className="sig">by Xenia</span>
           </Link>
           <div className="nav__right">
             <Magnetic>
               <a className="btn btn--pink nav__cta" href={checkout.subMonthly} target="_blank" rel="noreferrer">
-                Join Now
+                Start Training
               </a>
             </Magnetic>
             <Magnetic>

@@ -60,7 +60,7 @@ const TRACKS: Track[] = [
     tagline: 'Master the basics. Build the habit. Earn the savage.',
     desc: "Every savage started somewhere. This foundations track is built for women starting out — nailing the fundamental lifts, locking in proper form, and building the consistency every transformation stands on. Master the basics until they're automatic, then walk into any other Savage track with total confidence.",
     meta: [
-      { k: 'Perfect for', v: 'Beginners, comeback queens, and anyone rebuilding from the ground up' },
+      { k: 'Perfect for', v: 'Beginners, comeback stories, and anyone rebuilding from the ground up' },
       { k: 'Training style', v: 'Form-first foundational strength with steady progression' },
       { k: 'Access', v: 'Gym and home versions included' },
     ],
@@ -639,7 +639,7 @@ function EndCta() {
 export default function Subscription() {
   return (
     <>
-      <title>Savage Society Subscription — All Access VIP | Savage Fit</title>
+      <title>Training Subscription — All Access | Body by Xenia</title>
       <PageHero
         chip="Savage Society"
         title={

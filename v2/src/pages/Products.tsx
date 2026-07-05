@@ -247,7 +247,7 @@ function MensHomeSavage() {
           }
           lede={
             <>
-              Savage isn't only for the queens. The Men's Home Savage subscription is a{' '}
+              Training for the men, too. The Men's Home Savage subscription is a{' '}
               <strong>16-week, minimal-equipment home program</strong> designed to build lean,
               functional muscle and athletic conditioning through supersets, bodyweight
               exercises, and cardio intervals.
@@ -318,7 +318,7 @@ function FinalCta() {
       <div className="container">
         <Frame
           src="/img/xenia-wide.png"
-          alt="Xenia Busigin, IFBB Figure Pro — Savage Fit"
+          alt="Xenia Busigin, IFBB Figure Pro — Body by Xenia"
           ratio="3 / 1"
           parallax={10}
         />
@@ -334,7 +334,7 @@ function FinalCta() {
             lede={
               <>
                 Tell us where you're at and where you want to be — we'll point you to the plan
-                that gets you there. <strong>No pressure, no BS.</strong>
+                that gets you there. <strong>No pressure, no gimmicks.</strong>
               </>
             }
           />
@@ -363,7 +363,7 @@ function FinalCta() {
 export default function Products() {
   return (
     <>
-      <title>Programs & Products — Savage Fit</title>
+      <title>Programs & Products — Body by Xenia</title>
       <PageHero
         chip="Programs & Products"
         title={
@@ -373,10 +373,10 @@ export default function Products() {
         }
         lede={
           <>
-            Every queen has her own vision. Whether you're ready to build that hourglass
-            strength, torch fat like a boss, or feel absolutely untouchable in your own skin,
-            our programs are designed to serve <strong>looks AND performance</strong>. It's
-            time to stop playing small.
+            Every woman has her own vision. Whether you're ready to build hourglass strength,
+            lean out with confidence, or feel absolutely untouchable in your own skin, our
+            programs are designed to serve <strong>looks AND performance</strong>. It's time
+            to stop playing small.
           </>
         }
       >

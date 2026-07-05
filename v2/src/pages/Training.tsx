@@ -330,7 +330,7 @@ function FitCheck() {
               An <span className="serif-i">honest</span> fit check.
             </>
           }
-          lede="Premium coaching only works when it matches how you actually train. Here is the truth, no BS."
+          lede="Premium coaching only works when it matches how you actually train. Here's the honest picture."
         />
         <div className="grid-2" style={{ alignItems: 'start' }}>
           <FadeUp delay={0.05}>
@@ -562,7 +562,7 @@ function FinalCta() {
 export default function Training() {
   return (
     <>
-      <title>1-on-1 Custom Online Coaching — Savage Fit</title>
+      <title>1-on-1 Custom Online Coaching — Body by Xenia</title>
       <Hero />
       <WhatIsIt />
       <Difference />

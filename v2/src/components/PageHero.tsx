@@ -29,7 +29,7 @@ export default function PageHero({
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(55% 45% at 80% 0%, rgba(255,31,112,0.13), transparent 62%), radial-gradient(40% 35% at 8% 30%, rgba(111,168,255,0.08), transparent 60%)',
+            'radial-gradient(55% 45% at 82% 0%, var(--wash-pink), transparent 64%), radial-gradient(42% 36% at 6% 32%, var(--wash-lilac), transparent 62%)',
           pointerEvents: 'none',
         }}
       />

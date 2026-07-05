@@ -2,9 +2,85 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 /**
- * Hero particle field: ~2600 points drifting in a slow vortex,
- * tinted savage pink → violet → steel, leaning toward the cursor.
+ * Pastel aurora: a fullscreen quad running layered simplex noise that
+ * drifts rose → lilac washes across the porcelain background.
+ * Cursor adds a gentle lean. DPR capped for mobile GPUs.
  */
+
+const VERT = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = vec4(position, 1.0);
+  }
+`
+
+const FRAG = /* glsl */ `
+  precision highp float;
+  varying vec2 vUv;
+  uniform float uTime;
+  uniform vec2 uMouse;
+  uniform float uAspect;
+
+  // simplex-ish value noise
+  vec2 hash(vec2 p) {
+    p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+    return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+  }
+  float noise(in vec2 p) {
+    const float K1 = 0.366025404;
+    const float K2 = 0.211324865;
+    vec2 i = floor(p + (p.x + p.y) * K1);
+    vec2 a = p - i + (i.x + i.y) * K2;
+    vec2 o = (a.x > a.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec2 b = a - o + K2;
+    vec2 c = a - 1.0 + 2.0 * K2;
+    vec3 h = max(0.5 - vec3(dot(a, a), dot(b, b), dot(c, c)), 0.0);
+    vec3 n = h * h * h * h * vec3(dot(a, hash(i)), dot(b, hash(i + o)), dot(c, hash(i + 1.0)));
+    return dot(n, vec3(70.0));
+  }
+  float fbm(vec2 p) {
+    float v = 0.0;
+    float amp = 0.55;
+    for (int i = 0; i < 4; i++) {
+      v += amp * noise(p);
+      p *= 2.02;
+      amp *= 0.5;
+    }
+    return v;
+  }
+
+  void main() {
+    vec2 uv = vUv;
+    vec2 p = vec2(uv.x * uAspect, uv.y);
+    float t = uTime * 0.045;
+    vec2 drift = uMouse * 0.12;
+
+    float n1 = fbm(p * 1.15 + vec2(t, -t * 0.6) + drift);
+    float n2 = fbm(p * 1.7 - vec2(t * 0.8, t * 0.4) - drift);
+
+    vec3 porcelain = vec3(0.992, 0.984, 0.980);
+    vec3 rose = vec3(0.957, 0.769, 0.878);
+    vec3 lilac = vec3(0.835, 0.788, 0.949);
+    vec3 peach = vec3(0.988, 0.895, 0.860);
+
+    float wR = smoothstep(0.12, 0.85, n1) * 0.75;
+    float wL = smoothstep(0.10, 0.9, n2) * 0.65;
+    float wP = smoothstep(0.35, 0.95, fbm(p * 0.8 + vec2(-t * 0.5, t))) * 0.4;
+
+    vec3 col = porcelain;
+    col = mix(col, rose, wR);
+    col = mix(col, lilac, wL);
+    col = mix(col, peach, wP);
+
+    // keep edges airy so content stays readable
+    float vign = smoothstep(1.25, 0.35, distance(uv, vec2(0.5, 0.52)));
+    col = mix(porcelain, col, vign * 0.85);
+
+    gl_FragColor = vec4(col, 1.0);
+  }
+`
+
 export default function HeroCanvas() {
   const mount = useRef<HTMLDivElement>(null)
 
@@ -14,94 +90,45 @@ export default function HeroCanvas() {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(60, el.clientWidth / el.clientHeight, 0.1, 100)
-    camera.position.z = 7
-
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
+    const renderer = new THREE.WebGLRenderer({ antialias: false })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     renderer.setSize(el.clientWidth, el.clientHeight)
     el.appendChild(renderer.domElement)
 
-    const COUNT = 2600
-    const positions = new Float32Array(COUNT * 3)
-    const colors = new Float32Array(COUNT * 3)
-    const seeds = new Float32Array(COUNT)
-
-    const cPink = new THREE.Color('#ff1f70')
-    const cViolet = new THREE.Color('#a06bff')
-    const cSteel = new THREE.Color('#6fa8ff')
-    const cBone = new THREE.Color('#f5f2ec')
-
-    for (let i = 0; i < COUNT; i++) {
-      const r = 3.2 + Math.random() * 5.5
-      const theta = Math.random() * Math.PI * 2
-      const y = (Math.random() - 0.5) * 5.5
-      positions[i * 3] = Math.cos(theta) * r
-      positions[i * 3 + 1] = y
-      positions[i * 3 + 2] = Math.sin(theta) * r - 2
-      seeds[i] = Math.random()
-
-      const t = Math.random()
-      const c =
-        t < 0.45 ? cPink.clone() : t < 0.75 ? cViolet.clone() : t < 0.92 ? cSteel.clone() : cBone.clone()
-      c.multiplyScalar(0.55 + Math.random() * 0.45)
-      colors[i * 3] = c.r
-      colors[i * 3 + 1] = c.g
-      colors[i * 3 + 2] = c.b
+    const uniforms = {
+      uTime: { value: 0 },
+      uMouse: { value: new THREE.Vector2(0, 0) },
+      uAspect: { value: el.clientWidth / Math.max(el.clientHeight, 1) },
     }
 
-    const geo = new THREE.BufferGeometry()
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    const mat = new THREE.ShaderMaterial({ vertexShader: VERT, fragmentShader: FRAG, uniforms })
+    const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat)
+    scene.add(quad)
 
-    const mat = new THREE.PointsMaterial({
-      size: 0.035,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.85,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    })
-
-    const points = new THREE.Points(geo, mat)
-    scene.add(points)
-
-    const mouse = { x: 0, y: 0 }
+    const target = new THREE.Vector2(0, 0)
     const onMouse = (e: MouseEvent) => {
-      mouse.x = (e.clientX / window.innerWidth - 0.5) * 2
-      mouse.y = (e.clientY / window.innerHeight - 0.5) * 2
+      target.set(e.clientX / window.innerWidth - 0.5, e.clientY / window.innerHeight - 0.5)
     }
     window.addEventListener('mousemove', onMouse, { passive: true })
 
     const onResize = () => {
-      if (!el) return
-      camera.aspect = el.clientWidth / el.clientHeight
-      camera.updateProjectionMatrix()
       renderer.setSize(el.clientWidth, el.clientHeight)
+      uniforms.uAspect.value = el.clientWidth / Math.max(el.clientHeight, 1)
     }
     window.addEventListener('resize', onResize)
 
     const clock = new THREE.Clock()
     let raf = 0
-    const base = geo.attributes.position.array as Float32Array
-
     const tick = () => {
-      const t = clock.getElapsedTime()
-      points.rotation.y = t * 0.045
-      const pos = geo.attributes.position.array as Float32Array
-      // gentle vertical bob per-particle (cheap, no shader needed)
-      for (let i = 0; i < COUNT; i++) {
-        pos[i * 3 + 1] = base[i * 3 + 1] + Math.sin(t * 0.6 + seeds[i] * Math.PI * 2) * 0.12
-      }
-      geo.attributes.position.needsUpdate = true
-      camera.position.x += (mouse.x * 0.7 - camera.position.x) * 0.03
-      camera.position.y += (-mouse.y * 0.45 - camera.position.y) * 0.03
-      camera.lookAt(0, 0, -1)
+      uniforms.uTime.value = clock.getElapsedTime()
+      uniforms.uMouse.value.lerp(target, 0.04)
       renderer.render(scene, camera)
       raf = requestAnimationFrame(tick)
     }
 
     if (prefersReduced) {
+      uniforms.uTime.value = 12
       renderer.render(scene, camera)
     } else {
       tick()
@@ -111,7 +138,7 @@ export default function HeroCanvas() {
       cancelAnimationFrame(raf)
       window.removeEventListener('mousemove', onMouse)
       window.removeEventListener('resize', onResize)
-      geo.dispose()
+      quad.geometry.dispose()
       mat.dispose()
       renderer.dispose()
       el.removeChild(renderer.domElement)

@@ -17,16 +17,16 @@ import { checkout, social } from '../data/site'
 
 const FAQ: QA[] = [
   {
-    q: 'What is Savage Fit?',
-    a: 'Savage Fit is an online coaching community led by IFBB Figure Pro Xenia Busigin, built to help you get fit and smash your goals. Workouts arrive through our fitness app with video demonstrations and real-time progress tracking.',
+    q: 'What is Body by Xenia?',
+    a: 'Body by Xenia (Savage Fit) is an online coaching community led by IFBB Figure Pro Xenia Busigin, built to help you reach your goals with confidence. Workouts arrive through our fitness app with video demonstrations and real-time progress tracking.',
   },
   {
-    q: 'What is the Savage Subscription?',
-    a: 'A self-guided subscription to every workout library, so you can pick programs that match your goals. Swap programs any time by messaging Xenia, track workouts, meals, weight, and photos in the app, and hang out in our community — Xenia checks in often. Custom meal plans are available as an add-on.',
+    q: 'What is the training subscription?',
+    a: 'A self-guided subscription to every workout library, so you can pick programs that match your goals. Swap programs any time by messaging Xenia, track workouts, meals, weight, and photos in the app, and lean on our community — Xenia checks in often. Custom meal plans are available as an add-on.',
   },
   {
     q: 'What are the fitness challenges?',
-    a: 'Seasonal six-to-nine-week sprints where the whole group trains a custom program and keeps each other accountable. Subscription VIPs get 30% off challenge meal plans and free access to challenge workouts, dropped straight into the app.',
+    a: 'Seasonal six-to-nine-week programs where the whole group trains together and keeps each other accountable. Subscription members get 30% off challenge meal plans and free access to challenge workouts, dropped straight into the app.',
   },
   {
     q: 'How is 1-on-1 coaching different?',
@@ -55,7 +55,7 @@ const TESTIMONIALS = [
     name: 'Giselle A.',
     tag: 'Working out 6x a week',
     quote:
-      "Your knowledge, level of firmness, calling out BS in the most professional way, all while being relatable. I can now hit the weight room with a confidence I didn't have before.",
+      "Your knowledge, level of firmness, calling things out in the most professional way, all while being relatable. I can now hit the weight room with a confidence I didn't have before.",
   },
   {
     name: 'Lidia F.',
@@ -92,7 +92,7 @@ const TESTIMONIALS = [
 const STEPS = [
   {
     t: 'Choose Your Vision',
-    d: "Tell us your goals — building curves, getting shredded, or feeling absolutely unstoppable. We'll match you with the perfect approach.",
+    d: "Tell us your goals — building curves, leaning out, or feeling absolutely unstoppable. We'll match you with the perfect approach.",
   },
   {
     t: 'Get Your Custom Blueprint',
@@ -110,20 +110,30 @@ const STEPS = [
 
 const PILLARS = [
   {
-    t: 'Savage Sisterhood',
-    d: "This isn't just another fitness program — it's your tribe. Fierce women who lift each other up, celebrate every win, and prove that when women support women, magic happens.",
+    t: 'A True Sisterhood',
+    d: "This isn't just another fitness program — it's your community. Women who lift each other up, celebrate every win, and prove that when women support women, everything changes.",
   },
   {
     t: 'Programs That Actually Work',
-    d: 'We throw the fitness rulebook out the window. Unconventional methods designed around what YOUR body needs — not what some generic plan thinks you should do. Real results, zero BS.',
+    d: 'Methods designed around what YOUR body needs — not what some generic plan thinks you should do. Thoughtful programming, real results, no gimmicks.',
   },
   {
     t: 'Always in Your Corner',
-    d: 'The difference between giving up and glowing up? People who genuinely care about your success — through every breakthrough, plateau, and victory dance.',
+    d: 'The difference between giving up and glowing up? People who genuinely care about your success — through every breakthrough, plateau, and victory.',
   },
 ]
 
 const TRANSFORMS = [1, 2, 3, 4, 5, 6].map((n) => `/img/transform-${n}.png`)
+
+const glassChip: React.CSSProperties = {
+  position: 'absolute',
+  left: 16,
+  bottom: 16,
+  background: 'rgba(253, 251, 250, 0.78)',
+  backdropFilter: 'blur(8px)',
+  border: '1px solid rgba(37, 28, 46, 0.14)',
+  color: 'var(--ink)',
+}
 
 /* ————— sections ————— */
 
@@ -133,12 +143,12 @@ function Hero() {
   useGSAP(
     () => {
       gsap.fromTo(
-        '.hero-img-wrap',
-        { clipPath: 'inset(100% 0 0 0)', y: 60 },
-        { clipPath: 'inset(0% 0 0 0)', y: 0, duration: 1.4, delay: 1.15, ease: 'power4.out' },
+        '.hero-portrait',
+        { opacity: 0, y: 70 },
+        { opacity: 1, y: 0, duration: 1.5, delay: 1.05, ease: 'power4.out' },
       )
-      gsap.to('.hero-img-wrap', {
-        y: -60,
+      gsap.to('.hero-portrait', {
+        y: -50,
         scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true },
       })
     },
@@ -165,66 +175,71 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(70% 55% at 72% 30%, rgba(255,31,112,0.10), transparent 65%), linear-gradient(180deg, rgba(11,11,13,0.4), transparent 30%, transparent 70%, rgba(11,11,13,0.9))',
+            'linear-gradient(180deg, rgba(253,251,250,0.55), rgba(253,251,250,0.12) 34%, rgba(253,251,250,0.16) 70%, rgba(253,251,250,0.92))',
           zIndex: 1,
           pointerEvents: 'none',
         }}
       />
 
-      <div className="container" style={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', alignItems: 'center' }}>
+      <div
+        className="container"
+        style={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', alignItems: 'center' }}
+      >
         <div style={{ width: '100%', position: 'relative' }}>
-          {/* floating portrait */}
+          {/* blended portrait — pale studio background melts into the page */}
           <div
-            className="hero-img-wrap"
+            className="hero-portrait"
             style={{
               position: 'absolute',
-              right: 0,
-              bottom: '-16%',
-              width: 'clamp(240px, 30vw, 460px)',
-              aspectRatio: '4 / 5.4',
-              borderRadius: 'var(--radius)',
-              overflow: 'hidden',
-              boxShadow: '0 40px 120px rgba(255,31,112,0.22)',
+              right: 'clamp(-30px, 0vw, 40px)',
+              bottom: '-8%',
+              width: 'clamp(230px, 29vw, 450px)',
               zIndex: 1,
+              pointerEvents: 'none',
             }}
           >
-            <img
-              src="/img/xenia-crop.png"
-              alt="Xenia Busigin, IFBB Figure Pro"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 12%' }}
-            />
             <div
+              aria-hidden
               style={{
                 position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(200deg, transparent 55%, rgba(11,11,13,0.55))',
+                inset: '-12% -18%',
+                background:
+                  'radial-gradient(55% 48% at 50% 42%, var(--wash-pink), transparent 68%), radial-gradient(45% 40% at 62% 60%, var(--wash-lilac), transparent 70%)',
+                filter: 'blur(6px)',
               }}
             />
-            <span
-              className="chip"
+            <img
+              src="/img/cut/xenia-face.png"
+              alt="Xenia Busigin, IFBB Figure Pro"
+              className="fade-b"
+              style={{ position: 'relative', width: '100%' }}
+            />
+            <motion.span
+              className="script"
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.7, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 position: 'absolute',
-                left: 14,
-                bottom: 14,
-                background: 'rgba(11,11,13,0.6)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(245,242,236,0.25)',
-                color: 'var(--ink)',
+                left: '-30%',
+                bottom: '22%',
+                fontSize: 'clamp(1.8rem, 3.4vw, 3rem)',
+                transform: 'rotate(-6deg)',
               }}
             >
-              Xenia Busigin · IFBB Figure Pro
-            </span>
+              Xenia Busigin
+            </motion.span>
           </div>
 
           <motion.span
             className="chip chip--pink"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.05, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 1.0, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             style={{ marginBottom: 'clamp(18px, 3vw, 34px)' }}
           >
             <span className="dot" />
-            Elite Online Coaching
+            Elite Coaching · IFBB Figure Pro
           </motion.span>
 
           <h1 className="display d-hero" style={{ position: 'relative', zIndex: 2 }}>
@@ -233,9 +248,9 @@ function Hero() {
                 style={{ display: 'block' }}
                 initial={{ y: '112%' }}
                 animate={{ y: 0 }}
-                transition={{ delay: 0.75, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.7, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
               >
-                Unleash
+                Your body,
               </motion.span>
             </span>
             <span className="split-line" style={{ display: 'block' }}>
@@ -243,19 +258,9 @@ function Hero() {
                 style={{ display: 'block' }}
                 initial={{ y: '112%' }}
                 animate={{ y: 0 }}
-                transition={{ delay: 0.87, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.84, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
               >
-                the <span className="serif-i">savage</span>
-              </motion.span>
-            </span>
-            <span className="split-line" style={{ display: 'block' }}>
-              <motion.span
-                style={{ display: 'block' }}
-                initial={{ y: '112%' }}
-                animate={{ y: 0 }}
-                transition={{ delay: 0.99, duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <span className="hollow-text">within</span>
+                beautifully <span className="serif-i">strong</span>.
               </motion.span>
             </span>
           </h1>
@@ -263,7 +268,7 @@ function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 1.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: 'flex',
               gap: 'clamp(20px, 4vw, 56px)',
@@ -273,14 +278,15 @@ function Hero() {
               paddingBottom: 'clamp(40px, 6vw, 72px)',
             }}
           >
-            <p className="lede" style={{ maxWidth: '42ch' }}>
-              Elite-level coaching by an <strong>IFBB Figure Pro</strong>. Online training, group
-              challenges, and a supportive community — wherever you are in your journey.
+            <p className="lede" style={{ maxWidth: '44ch' }}>
+              Elite-level coaching by <strong>IFBB Figure Pro Xenia Busigin</strong>. Personalized
+              online training, group challenges, and a supportive community of women — wherever
+              you are in your journey.
             </p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
               <Magnetic>
                 <a className="btn btn--pink" href="#programs">
-                  Start Right Now <span className="arr">→</span>
+                  Begin Today <span className="arr">→</span>
                 </a>
               </Magnetic>
               <Magnetic>
@@ -297,8 +303,8 @@ function Hero() {
         <Marquee
           items={[
             'IFBB Figure Pro',
-            'Online Coaching',
-            'Savage Sisterhood',
+            'Personalized Coaching',
+            'A True Sisterhood',
             'Real Results',
             'Train Anywhere',
           ]}
@@ -315,20 +321,20 @@ function About() {
         <div>
           <SectionHead
             num="01"
-            kicker="About Savage Fit"
+            kicker="About"
             title={
               <>
                 Your fitness.
                 <br />
-                Your <span className="serif-i">tribe</span>.
+                Your <span className="serif-i">community</span>.
               </>
             }
           />
           <FadeUp as="p" className="lede" delay={0.1}>
-            At Savage, fitness is more than training — it's about building an{' '}
-            <strong>unbreakable mindset</strong> and joining a community that has your back.
-            Whether you're ready to dominate your first challenge, push past plateaus, or
-            completely transform your lifestyle, our proven coaching system and fierce community
+            Fitness is more than training — it's about building an{' '}
+            <strong>unshakeable mindset</strong> and joining a community that has your back.
+            Whether you're ready to take on your first challenge, push past plateaus, or
+            completely transform your lifestyle, our proven coaching system and devoted community
             will guide you every rep of the way.
           </FadeUp>
           <FadeUp delay={0.2}>
@@ -340,7 +346,26 @@ function About() {
             </div>
           </FadeUp>
         </div>
-        <Frame src="/img/xenia-portrait.png" alt="Xenia Busigin" ratio="4 / 5" parallax={14} />
+        <FadeUp delay={0.15}>
+          <div style={{ position: 'relative', padding: '6% 4%' }}>
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                inset: '4% 0',
+                background:
+                  'radial-gradient(60% 52% at 50% 40%, var(--wash-lilac), transparent 70%), radial-gradient(50% 45% at 38% 62%, var(--wash-pink), transparent 72%)',
+                filter: 'blur(4px)',
+              }}
+            />
+            <img
+              src="/img/cut/xenia-portrait.png"
+              alt="Xenia Busigin"
+              className="fade-b"
+              style={{ position: 'relative', width: '100%' }}
+            />
+          </div>
+        </FadeUp>
       </div>
     </section>
   )
@@ -371,19 +396,32 @@ function Transformations() {
   )
 
   return (
-    <section ref={ref} className="section--line" style={{ overflow: 'clip' }}>
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingBlock: 'clamp(60px, 8vh, 100px)' }}>
+    <section ref={ref} className="section--line" style={{ overflow: 'clip', background: 'var(--bg-2)' }}>
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          paddingBlock: 'clamp(60px, 8vh, 100px)',
+        }}
+      >
         <div className="container" style={{ marginBottom: 'clamp(32px, 5vh, 64px)' }}>
           <span className="kicker kicker--num">
             <span className="num">02</span>Transformations
           </span>
           <SplitReveal className="display d-1" as="h2">
-            Real people. <span className="serif-i">Real</span> results.
+            Real women. <span className="serif-i">Real</span> results.
           </SplitReveal>
         </div>
         <div
           className="rail"
-          style={{ display: 'flex', gap: 'clamp(16px, 2vw, 32px)', paddingLeft: 'var(--gutter)', width: 'max-content' }}
+          style={{
+            display: 'flex',
+            gap: 'clamp(16px, 2vw, 32px)',
+            paddingLeft: 'var(--gutter)',
+            width: 'max-content',
+          }}
         >
           {TRANSFORMS.map((src, i) => (
             <div
@@ -392,19 +430,8 @@ function Transformations() {
               style={{ width: 'clamp(300px, 44vw, 640px)', aspectRatio: '4 / 3', flex: 'none' }}
             >
               <img src={src} alt={`Client transformation ${i + 1} — before and after`} loading="lazy" />
-              <span
-                className="chip"
-                style={{
-                  position: 'absolute',
-                  left: 16,
-                  bottom: 16,
-                  background: 'rgba(11,11,13,0.65)',
-                  backdropFilter: 'blur(8px)',
-                  color: 'var(--ink)',
-                  border: '1px solid rgba(245,242,236,0.2)',
-                }}
-              >
-                Savage Transformation · {String(i + 1).padStart(2, '0')}
+              <span className="chip" style={glassChip}>
+                Transformation · {String(i + 1).padStart(2, '0')}
               </span>
             </div>
           ))}
@@ -419,11 +446,13 @@ function Transformations() {
           >
             <div style={{ textAlign: 'center', padding: 24 }}>
               <p className="display d-3" style={{ marginBottom: 24 }}>
-                From building curves that kill to shredding like queens.
+                Strong curves. New confidence.
+                <br />
+                <span className="serif-i">Your turn.</span>
               </p>
               <Magnetic>
                 <Link className="btn btn--pink" to="/challenges">
-                  Your Turn <span className="arr">→</span>
+                  Join a Challenge <span className="arr">→</span>
                 </Link>
               </Magnetic>
             </div>
@@ -441,8 +470,8 @@ function Programs() {
       img: '/img/xenia-portrait.png',
       pos: '50% 15%',
       k: 'Self-guided · App-based',
-      t: 'Savage Society Subscription',
-      d: 'Unlimited access to the full program library — strength, shred, lifestyle, booty gains — rotating monthly so you never plateau.',
+      t: 'Training Subscription',
+      d: 'Unlimited access to the full program library — strength, sculpt, lifestyle, glute-focus — rotating monthly so you never plateau.',
     },
     {
       to: '/training',
@@ -450,15 +479,15 @@ function Programs() {
       pos: '50% 30%',
       k: 'Premium · 1-on-1',
       t: 'Custom Online Coaching',
-      d: '100% custom programming, weekly personal check-ins, and direct access to an IFBB Pro. No cookie-cutter. No BS.',
+      d: '100% custom programming, weekly personal check-ins, and direct access to an IFBB Pro. Completely built around you.',
     },
     {
       to: '/spring-aesthetic',
       img: '/img/transform-4.png',
       pos: '50% 20%',
       k: 'Group · 6 weeks',
-      t: 'Savage in Six Challenge',
-      d: 'Our signature 6-week transformation sprint. Group energy, cash prizes, and programs tailored to your goal.',
+      t: 'Six-Week Challenge',
+      d: 'Our signature transformation experience. Group energy, prizes, and programs tailored to your goal.',
     },
   ]
   return (
@@ -479,7 +508,7 @@ function Programs() {
           {cards.map((c, i) => (
             <FadeUp key={c.to} delay={i * 0.12}>
               <Link to={c.to} className="card" style={{ display: 'block', padding: 0 }}>
-                <div className="frame" style={{ aspectRatio: '4 / 3', borderRadius: 0 }}>
+                <div className="frame" style={{ aspectRatio: '4 / 3', borderRadius: 0, boxShadow: 'none' }}>
                   <img
                     src={c.img}
                     alt={c.t}
@@ -495,7 +524,15 @@ function Programs() {
                     {c.t}
                   </h3>
                   <p style={{ color: 'var(--dim)', fontSize: '0.95rem', marginBottom: 18 }}>{c.d}</p>
-                  <span style={{ color: 'var(--pink)', fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+                  <span
+                    style={{
+                      color: 'var(--pink-hot)',
+                      fontWeight: 700,
+                      fontSize: '0.76rem',
+                      letterSpacing: '0.22em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
                     Explore →
                   </span>
                 </div>
@@ -514,19 +551,19 @@ function Pricing() {
       <div className="container">
         <SectionHead
           num="04"
-          kicker="Savage Society"
+          kicker="Membership"
           title={
             <>
-              Get addicted to your own
+              Fall in love with your own
               <br />
               <span className="serif-i">transformation</span>.
             </>
           }
           lede={
             <>
-              Unlimited access to the entire library of intense, fresh programs that rotate
-              monthly. No check-ins, no fluff — just pure workouts designed by an IFBB Pro who
-              knows exactly how to make you sweat, sculpt, and slay.
+              Unlimited access to the entire library of fresh programs that rotate monthly. No
+              filler — thoughtful workouts designed by an IFBB Pro who knows exactly how to help
+              you sweat, sculpt, and shine.
             </>
           }
         />
@@ -541,7 +578,7 @@ function Pricing() {
               'Full program library, rotating monthly',
               'Gym and home versions',
               'Video demos + tracking tools',
-              'Savage Society community access',
+              'Private community access',
             ]}
           />
           <PriceCard
@@ -578,7 +615,7 @@ function Pricing() {
         <FadeUp delay={0.2}>
           <p style={{ textAlign: 'center', color: 'var(--faint)', marginTop: 28, fontSize: '0.85rem' }}>
             Prices in USD. Cancel anytime.{' '}
-            <Link to="/subscription" style={{ color: 'var(--pink)' }}>
+            <Link to="/subscription" style={{ color: 'var(--pink-hot)' }}>
               See everything the subscription includes →
             </Link>
           </p>
@@ -594,7 +631,7 @@ function Pillars() {
       <div className="container">
         <SectionHead
           num="05"
-          kicker="The Savage difference"
+          kicker="The difference"
           title={
             <>
               Simple. Effective.
@@ -615,7 +652,15 @@ function Pillars() {
                 }}
               >
                 <h3 className="display d-2" style={{ display: 'flex', gap: 20, alignItems: 'baseline' }}>
-                  <span style={{ fontSize: '0.35em', color: 'var(--pink)', fontFamily: 'var(--font-body)', fontWeight: 700, letterSpacing: '0.2em' }}>
+                  <span
+                    style={{
+                      fontSize: '0.34em',
+                      color: 'var(--pink)',
+                      fontFamily: 'var(--font-body)',
+                      fontWeight: 700,
+                      letterSpacing: '0.2em',
+                    }}
+                  >
                     0{i + 1}
                   </span>
                   {p.t}
@@ -645,7 +690,7 @@ function Steps() {
                 your body.
               </>
             }
-            lede="Getting started with Savage is simple. Follow these steps and let's build the best version of you — together."
+            lede="Getting started is simple. Follow these steps and let's build the best version of you — together."
           />
           <Magnetic>
             <Link className="btn btn--pink" to="/training">
@@ -674,22 +719,19 @@ function Steps() {
 function Team() {
   const team = [
     {
-      img: '/img/xenia-portrait.png',
-      pos: '50% 12%',
+      img: '/img/cut/xenia-portrait.png',
       n: 'Xenia Busigin',
       r: 'Founder · Head Coach · IFBB Figure Pro',
       d: 'IFBB Pro card winner who knows the demands of competition prep and everyday life alike. Xenia has helped hundreds of women transform their bodies and mindsets.',
     },
     {
-      img: '/img/coach-matt.png',
-      pos: '50% 15%',
+      img: '/img/cut/coach-matt.png',
       n: 'Matt Haynes',
       r: 'Coach · Custom Training',
       d: 'Matt builds fully customized programs and meal plans with weekly check-ins — effective workouts paired with expert nutrition guidance for sustainable results.',
     },
     {
-      img: '/img/coach-angie.png',
-      pos: '50% 15%',
+      img: '/img/cut/coach-angie.png',
       n: 'Angie Romayor-Eisele',
       r: 'Coach · Custom Training',
       d: 'Angie coaches with equal parts fire and heart — custom programming, nutrition guidance, and the accountability to keep you moving forward.',
@@ -710,13 +752,40 @@ function Team() {
         <div className="grid-3">
           {team.map((m, i) => (
             <FadeUp key={m.n} delay={i * 0.12}>
-              <div className="card" style={{ padding: 0 }}>
-                <div className="frame" style={{ aspectRatio: '3 / 3.4', borderRadius: 0 }}>
-                  <img src={m.img} alt={m.n} loading="lazy" style={{ objectPosition: m.pos }} />
+              <div className="card" style={{ textAlign: 'center' }}>
+                <div style={{ position: 'relative', padding: '8% 12% 0' }}>
+                  <div
+                    aria-hidden
+                    style={{
+                      position: 'absolute',
+                      inset: '6% 8%',
+                      background:
+                        i % 2
+                          ? 'radial-gradient(58% 50% at 50% 42%, var(--wash-lilac), transparent 70%)'
+                          : 'radial-gradient(58% 50% at 50% 42%, var(--wash-pink), transparent 70%)',
+                      filter: 'blur(4px)',
+                    }}
+                  />
+                  <img
+                    src={m.img}
+                    alt={m.n}
+                    loading="lazy"
+                    className="fade-b"
+                    style={{ position: 'relative', width: '100%', aspectRatio: '3 / 3.3', objectFit: 'cover', objectPosition: '50% 8%' }}
+                  />
                 </div>
-                <div style={{ padding: 'clamp(20px, 2.2vw, 30px)' }}>
+                <div style={{ padding: 'clamp(18px, 2vw, 26px) 8px 8px' }}>
                   <h3 className="display d-3">{m.n}</h3>
-                  <p style={{ color: 'var(--pink)', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', margin: '8px 0 12px' }}>
+                  <p
+                    style={{
+                      color: 'var(--pink-hot)',
+                      fontSize: '0.7rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.22em',
+                      textTransform: 'uppercase',
+                      margin: '8px 0 12px',
+                    }}
+                  >
                     {m.r}
                   </p>
                   <p style={{ color: 'var(--dim)', fontSize: '0.92rem' }}>{m.d}</p>
@@ -734,11 +803,11 @@ function Journal() {
   return (
     <section className="section section--line">
       <div className="container grid-2">
-        <Frame src="/img/beach.jpg" alt="Recovery and balance — Savage lifestyle" ratio="1 / 1" parallax={12} />
+        <Frame src="/img/beach.jpg" alt="Recovery and balance" ratio="1 / 1" parallax={12} />
         <div>
           <SectionHead
             num="08"
-            kicker="Latest article"
+            kicker="From Xenia"
             title={
               <>
                 Your come back is <span className="serif-i">programmed</span>.
@@ -778,7 +847,7 @@ function Faq() {
                 We've got <span className="serif-i">answers</span>.
               </>
             }
-            lede="Everything you need to know about Savage Fit — features, pricing, and how to get started."
+            lede="Everything you need to know — features, pricing, and how to get started."
           />
         </div>
         <Accordion items={FAQ} />
@@ -805,15 +874,30 @@ function Testimonials() {
       <div className="container grid-3">
         {TESTIMONIALS.map((t, i) => (
           <FadeUp key={t.name} delay={(i % 3) * 0.1} className="card">
-            <div style={{ color: 'var(--pink)', fontSize: '1.6rem', fontFamily: 'var(--font-serif)', lineHeight: 1 }}>
+            <div
+              style={{
+                color: 'var(--pink)',
+                fontSize: '2.4rem',
+                fontFamily: 'var(--font-script)',
+                lineHeight: 1,
+              }}
+            >
               “
             </div>
-            <p style={{ color: 'var(--ink)', margin: '10px 0 22px', fontSize: '0.98rem', lineHeight: 1.65 }}>
+            <p style={{ color: 'var(--ink)', margin: '10px 0 22px', fontSize: '0.97rem', lineHeight: 1.7 }}>
               {t.quote}
             </p>
             <div>
               <strong style={{ display: 'block' }}>{t.name}</strong>
-              <span style={{ color: 'var(--pink)', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+              <span
+                style={{
+                  color: 'var(--pink-hot)',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                }}
+              >
                 {t.tag}
               </span>
             </div>
@@ -829,7 +913,7 @@ function Testimonials() {
 export default function Home() {
   return (
     <>
-      <title>Savage Fit — Elite Online Coaching by Xenia Busigin, IFBB Figure Pro</title>
+      <title>Body by Xenia — Elite Online Coaching by IFBB Figure Pro Xenia Busigin</title>
       <Hero />
       <About />
       <Transformations />
@@ -841,10 +925,7 @@ export default function Home() {
       <Journal />
       <Faq />
       <Testimonials />
-      <Marquee
-        items={['Join the Sisterhood', 'Train Anywhere', 'No BS', 'Real Results']}
-        reverse
-      />
+      <Marquee items={['Join the Sisterhood', 'Train Anywhere', 'Real Results', 'Begin Beautifully']} reverse />
     </>
   )
 }

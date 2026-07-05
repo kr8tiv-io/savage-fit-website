@@ -333,7 +333,7 @@ function NextChallenge() {
 export default function Challenges() {
   return (
     <>
-      <title>Savage in 6 Challenge — 6-Week Group Transformation | Savage Fit</title>
+      <title>Savage in 6 Challenge — 6-Week Group Transformation | Body by Xenia</title>
       <PageHero
         chip="Group Challenge · 6 Weeks"
         title={

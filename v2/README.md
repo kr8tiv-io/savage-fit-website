@@ -1,7 +1,9 @@
-# Savage Fit v2 — wethesavage.com rebuild
+# Body by Xenia — wethesavage.com rebuild
 
-Awwwards-grade rebuild of the Savage Fit site for Xenia Busigin (IFBB Figure Pro).
-Replaces the Framer export with a hand-built Vite + React app.
+Awwwards-grade rebuild for Xenia Busigin (IFBB Figure Pro), rebranded from Savage Fit
+to **Body by Xenia**: porcelain-white palette, rose→lilac gradient accents, elegant
+serif typography, and photography blended straight into the page (AI background
+removal via rembg). Replaces the Framer export with a hand-built Vite + React app.
 
 ## Stack
 
@@ -10,12 +12,13 @@ Replaces the Framer export with a hand-built Vite + React app.
 - **Lenis** — smooth scroll
 - **Three.js** — hero particle nebula (brand-tinted, cursor-reactive)
 - **Framer Motion** — page transitions, menu overlay, magnetic buttons, accordions
-- **Type**: Clash Display (display) + Satoshi (body) via Fontshare, Instrument Serif italic accents via Google Fonts
+- **Type**: Fraunces (display serif) + Great Vibes (script signature) + Manrope (body), via Google Fonts
 
 ## Design system
 
-Onyx `#0b0b0d` canvas · bone `#f5f2ec` ink · Savage Pink `#ff3d8a` → steel `#6fa8ff` gradient
-(gradient pulled from Xenia's studio-shot backdrop). Tokens + all component classes in
+Porcelain `#fdfbfa` canvas · plum `#251c2e` ink · rose `#d94f96` → lilac `#8a63d2` gradient.
+Portrait photography is background-removed (`public/img/cut/`, generated with rembg) and
+floats on pastel radial washes — no boxed photos. Tokens + all component classes in
 `src/styles/global.css`. Component contract for contributors in `CONTRACT.md`.
 
 ## Run
